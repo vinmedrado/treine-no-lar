@@ -1,40 +1,40 @@
-# Migração do VIVA para Treine no Lar
+# Migração do antigo VIVA para Treine no Lar
 
-## Status
-- Origem ativa: `vinmedrado/portfolio/viva/` — manter disponível para exportar backups
-- Preparação: branch `feature/treine-no-lar-migracao`, pasta `treine-no-lar/`
-- Destino pretendido: repositório público `vinmedrado/treine-no-lar`, arquivos desta pasta na raiz
-- Subdomínio pretendido: `https://treinenolar.vinmedrado.com/` — não publicado nem configurado
-- Não mesclar a branch de preparação no `main` do portfólio: ela é apenas a origem para transferir o novo projeto.
+## Estado confirmado
+- Novo repositório **criado e preenchido**: [vinmedrado/treine-no-lar](https://github.com/vinmedrado/treine-no-lar), branch `main`.
+- Aplicativo antigo preservado em [vinmedrado/portfolio/viva](https://github.com/vinmedrado/portfolio/tree/main/viva) e disponível em https://vinmedrado.com/viva/.
+- Subdomínio desejado: **https://treinenolar.vinmedrado.com/**.
+- Arquivo `CNAME` já incluído na raiz do novo repositório; **não significa que o DNS ou o HTTPS estejam configurados**.
+- Verificações automáticas de regras do aplicativo: **137/137 aprovadas** durante a transferência. Testes em navegadores reais e na hospedagem ainda pendentes.
 
-## Criação do repositório
-Crie `treine-no-lar` em https://github.com/new (público e **com a opção Add a README file ativada**, para iniciar a branch `main`). Volte à conversa: o assistente poderá transferir os arquivos da branch de preparação para a raiz do repositório via GitHub conectado. Não publique backups ou dados reais de usuários.
+## 1. Habilitar o GitHub Pages
+No novo repositório, acesse `Settings → Pages`. Em *Build and deployment*, selecione `Deploy from a branch`, branch `main`, pasta `/ (root)` e salve. A publicação pode depender das configurações do repositório/conta.
 
-## Hospedagem e domínio
-Em Settings → Pages do novo repositório, selecione `main` e `/ (root)`.
-Configure o domínio personalizado `treinenolar.vinmedrado.com`.
-No DNS do domínio adicione o `CNAME` com o host `treinenolar` apontando para `vinmedrado.github.io`.
-Ative HTTPS quando a validação terminar. O arquivo `CNAME` incluído neste pacote pertence à raiz do novo repositório.
+## 2. Configurar DNS e HTTPS
+No provedor DNS de `vinmedrado.com`, crie/valide um registro `CNAME` para o host `treinenolar` com destino `vinmedrado.github.io`. Após a propagação, valide em `Settings → Pages` se o domínio personalizado `treinenolar.vinmedrado.com` é reconhecido e habilite `Enforce HTTPS` quando disponível. O arquivo `CNAME` na raiz já contém `treinenolar.vinmedrado.com`.
 
-## Spotify
-No Spotify Developer Dashboard, adicione **exatamente** `https://treinenolar.vinmedrado.com/` às Redirect URIs permitidas antes de testar o login. O `spotify.js` calcula a URL de retorno com base na raiz da página publicada e utiliza PKCE, sem Client Secret. Mantenha também a URL antiga cadastrada enquanto o antigo VIVA estiver ativo.
+Não declare o domínio como ativo antes de conseguir abri-lo com HTTPS e validar os arquivos JS.
 
-## Privacidade e dados dos treinos
-A troca de domínio muda a origem do `localStorage`: o histórico antigo não aparece automaticamente.
-No aplicativo antigo, exporte o backup JSON em Ajustes; no Treine no Lar, restaure-o em Ajustes.
-A chave interna `viva-functional-v2` e o formato `viva-backup-v1` ficam preservados por compatibilidade, apesar da nova marca.
-Os backups JSON contêm dados sensíveis em texto simples. Guarde-os privadamente e remova cópias temporárias.
-Não redirecione automaticamente a URL antiga antes de os usuários poderem exportar seus dados.
+## 3. Spotify
+No [Spotify for Developers](https://developer.spotify.com/dashboard), adicione exatamente `https://treinenolar.vinmedrado.com/` na lista autorizada de Redirect URIs, **mantendo a URL antiga** enquanto o VIVA antigo ainda estiver em uso.
+A variável REDIRECT no novo `spotify.js` deriva da URL de hospedagem; não há Client Secret.
+Teste login, ativação do player, playlist, pausa e retomada no navegador após a publicação.
 
-## Correções incluídas
-- O service worker não intercepta nem coloca em cache URLs de retorno OAuth com `code`, `state` ou `error`.
-- Dados locais são normalizados na abertura do app; nomes e dicas de etapas são escapados antes de renderizar HTML.
-- O treino avulso bloqueia início quando a avaliação diária sinaliza dor, alerta ou recuperação intensa. Com prontidão baixa, utiliza 20 minutos e baixo impacto quando há avaliação.
-- Tokens Spotify continuam em `sessionStorage`, fora dos backups.
+## 4. Preservar dados pessoais
+O VIVA armazena registros no `localStorage` de `vinmedrado.com`; o novo subdomínio é uma origem diferente, portanto **não há migração automática de dados**.
+Antes de deixar o site antigo, abra https://vinmedrado.com/viva/ e acesse `Ajustes → Exportar backup`.
+No site novo, acesse `Ajustes → Restaurar backup` e selecione esse JSON.
+O arquivo exportado contém histórico, avaliações e medidas pessoais em texto simples: guarde-o com cuidado e não envie ao GitHub.
+As chaves internas `viva-functional-v2` e `viva-backup-v1` são mantidas intencionalmente para permitir importar registros antigos.
 
-## Checklist antes de divulgar
-- Abrir o site no iPhone/Safari e no desktop; verificar cabeçalho e ícone.
-- Executar e revisar `qa.html`, cronômetro e 20/30/45 minutos, pausa, voz e modo offline.
-- Exportar e restaurar backup de teste sem dados pessoais reais.
-- Testar login Spotify Premium e playlists usando a nova URL registrada.
-- Atualizar o portfólio apenas depois da publicação validada.
+Não coloque redirecionamento automático na página antiga enquanto houver usuários que precisem exportar seus dados.
+
+## 5. Segurança e testes
+- O cache PWA novo ignora navegações OAuth com `code`, `state` e `error`.
+- Dados locais são normalizados na inicialização; nomes e descrições dos passos recuperados são escapados na interface.
+- Treino avulso respeita alertas de prontidão já registrados, sem dispensar avaliação médica/profissional.
+- Tokens Spotify ficam no `sessionStorage` e não são exportados no backup.
+- Execute `qa.html` no navegador e valide manualmente treino de 20/30/45 minutos, pausa, voz no iPhone, PWA, backup e Spotify.
+
+## 6. Atualização do portfólio
+Somente após a publicação validada, atualize os links públicos do projeto no portfólio. O endereço antigo deve continuar acessível até concluir a migração dos históricos.

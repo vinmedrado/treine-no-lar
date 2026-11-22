@@ -1,6 +1,6 @@
-# Treine no Lar — Migração independente
+# Treine no Lar — Treinos guiados em casa
 
-Este projeto foi extraído do antigo VIVA, inicialmente hospedado em `vinmedrado.com/viva/`. O aplicativo original não deve ser excluído antes de os usuários exportarem seus dados e a integração do Spotify funcionar no novo domínio.
+Aplicativo independente de treino em casa, com plano semanal de força e cardio, cronômetro, acompanhamento da evolução e controle opcional de músicas no Spotify. É uma evolução do antigo VIVA, que permanece acessível para exportação do histórico.
 
 Leia [MIGRACAO.md](./MIGRACAO.md) antes de publicar.
 
@@ -9,8 +9,8 @@ Aplicativo de treinos em casa com plano semanal de força e cardio, cronômetro,
 ## Publicação
 
 - Endereço planejado após a migração: **https://treinenolar.vinmedrado.com/**
-- Repositório planejado: `vinmedrado/treine-no-lar` (arquivos na raiz)
-- Publicação independente via GitHub Pages após criar o novo repositório, configurar DNS e habilitar Pages. O portfólio atual permanece intacto.
+- Repositório atual: [`vinmedrado/treine-no-lar`](https://github.com/vinmedrado/treine-no-lar), arquivos na raiz
+- Código transferido para a branch `main`. Publicação ainda depende de habilitar o GitHub Pages, configurar DNS/HTTPS e cadastrar o Redirect URI do Spotify. O portfólio atual permanece intacto.
 
 ## Funcionalidades da versão completa
 
