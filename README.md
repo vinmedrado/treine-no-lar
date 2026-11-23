@@ -149,3 +149,7 @@ Durante uma sessão o Téo aparece em um card **dentro da tela de cronômetro**,
 ## Téo Smart Walk — navegação sem cobrir textos
 
 O mascote procura espaços vazios usando retângulos de texto por linha, limites de botões, links, menus e Spotify. Ao rolar a página, ele muda suavemente para um espaço próximo apenas se estiver obstruindo algo. Quando não couber, se recolhe em um pequeno ícone lateral; se não houver nem esse espaço, fica temporariamente invisível. O código não usa câmera, dados remotos ou IA externa e respeita movimento reduzido. A versão inline durante o treino permanece fixa no fluxo normal.
+
+## Animações nas demais abas — Motion Pages V1
+
+A home V5, o Téo Smart Walk, a integração Spotify e o cronômetro foram preservados. As abas Plano, Avulso, Exercícios, Progresso e Ajustes agora possuem entradas visuais específicas; também Biblioteca e Peso e medidas. Cabeçalhos, banners, sequências de exercícios, métricas, filtros, dias do plano, históricos e áreas de configuração são animados conforme entram na janela visível, sem ficarem ocultos antes de o JavaScript atuar. As barras de evolução são reveladas mantendo os valores reais. A animação não reinicia em re-renderizações internas (filtros, ajustes e mudanças de dia), nem interfere na sessão de treino. Em movimento reduzido, os efeitos são desativados. Novos arquivos `motion-pages-v1.css` e `motion-pages-v1.js`.
