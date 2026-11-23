@@ -111,7 +111,7 @@ function panel(){
  const id=selected(),authorized=!!auth(),details=selectedDetails(),hasTrack=!!song;
  const state=embedOpen&&embedMode==='official'?'PLAYLIST OFICIAL':playing?'REPRODUZINDO':hasTrack?'PAUSADO':device?'PLAYER ATIVO':'AGUARDANDO PLAYER';
  const officialOpen=embedOpen&&embedMode==='official';
- const officialCard='<section class="mv3-official" aria-label="Playlist oficial Treine no Lar">'
+ const officialCard='<section class="mv3-official'+(officialOpen?' mv3-public-active':'')+'" aria-label="Playlist oficial Treine no Lar">'
  +'<small class="mv3-official-eyebrow">PLAYLIST OFICIAL · PARA TODOS</small><h3>Música para treinar</h3>'
  +'<p>Ouça nossa seleção pelo Spotify. Não exige cadastro na lista de usuários do aplicativo.</p>'
  +'<div class="mv3-official-actions">'+button('official',officialOpen?'Fechar player':'Ouvir playlist',false,'mv3-official-play')
@@ -160,7 +160,7 @@ function draw(){
  if(body&&renderedPanel!==newPanel){
   const scroll=body.scrollTop;
   const details=[...body.querySelectorAll('.mv3-expand')].map(el=>el.open);
-  body.innerHTML=newPanel;renderedPanel=newPanel;body.scrollTop=scroll;
+  body.innerHTML=newPanel;renderedPanel=newPanel;body.scrollTop=officialMini?0:scroll;
   [...body.querySelectorAll('.mv3-expand')].forEach((el,i)=>{el.open=!!details[i]});
  }
  if(body)body.hidden=!expanded;
@@ -168,6 +168,7 @@ function draw(){
  dock.classList.toggle('is-open',expanded);
  dock.classList.toggle('is-used',!!selected()||!!auth()||embedOpen);
  dock.classList.toggle('is-embed-open',embedOpen);
+ dock.classList.toggle('is-public-playlist',officialMini);
  dock.classList.toggle('is-playing',playing);
 }
 
@@ -188,7 +189,7 @@ function embed(mode='personal'){
   iframe.setAttribute('allow','autoplay; encrypted-media; fullscreen; picture-in-picture');
   iframe.setAttribute('loading','lazy');
   iframe.setAttribute('referrerpolicy','strict-origin-when-cross-origin');
-  iframe.style.cssText='width:100%;border:0;border-radius:12px';
+  iframe.style.cssText='display:block;width:100%;height:152px;border:0;border-radius:12px';
   frame.appendChild(iframe);
  }
  expanded=true;

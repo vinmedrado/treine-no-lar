@@ -235,11 +235,26 @@ body:has(.nav.hidden) .viva-spot-dock{bottom:calc(12px + env(safe-area-inset-bot
 .viva-spot-dock .mv3-official-actions .mv3-official-play{background:#206a42;border:1px solid #206a42;border-radius:10px;padding:10px 13px;color:#fff;font-size:11px;font-weight:800}
 .mv3-official-actions a{color:#2b6845;font-size:11px;font-weight:750;text-decoration:underline;text-underline-offset:3px}
 .mv3-official-note{font-size:10px;line-height:1.45;color:#658572}
-.viva-spot-dock.is-embed-open{max-height:min(740px,calc(100dvh - 118px))}
-.viva-spot-dock.is-embed-open .viva-spot-frame{max-height:min(370px,46dvh);overflow:auto}
-.viva-spot-dock.is-embed-open .viva-spot-frame iframe{height:min(352px,44dvh)}
-@media(max-width:360px){.viva-spot-dock.is-embed-open .viva-spot-frame iframe{height:min(352px,41dvh)}}
-</style></head><body><div class="wrap"><header class="header"><div class="logo">Treine<em> no Lar</em></div><div class="sig" id="streak">Treinos da semana</div></header><div class="viva-offline-banner" id="offline-banner" role="status" aria-live="polite">Sem internet: você pode continuar treinando com os dados deste aparelho.</div><main id="app"><section class="viva-home-top"><div class="kicker">Treine no Lar · TREINO EM CASA</div><h1>Abrindo treinos</h1><p>Carregando o plano e seus registros salvos.</p></section><noscript>Ative o JavaScript para acessar o Treine no Lar.</noscript></main><nav class="nav" id="nav" aria-label="Menu"><span class="viva-nav-loading">Carregando menu…</span></nav><aside id="viva-music-dock" class="viva-spot-dock" aria-label="Música do treino"></aside></div><script src='guide.js?v=1'></script><script src='coach.js?v=4'></script><script src='exercises.js?v=2'></script><script src='evolution.js?v=3'></script><script src='evolution-ui.js?v=2'></script><script src='training.js?v=4'></script><script src='backup.js?v=4'></script><script src='spotify.js?v=6'></script><script>
+/* Player oficial compacto: não reservar espaço de 352px para iframe de 152px. */
+.viva-spot-dock.is-embed-open{max-height:min(485px,calc(100dvh - 126px))}
+.viva-spot-dock.is-embed-open .viva-spot-frame{flex:0 0 auto;max-height:none;overflow:visible;padding:5px 11px 10px}
+.viva-spot-dock.is-embed-open .viva-spot-frame iframe{display:block;width:100%;height:152px!important;max-height:152px}
+.viva-spot-dock.is-public-playlist [data-spot-body]{flex:0 1 auto;overflow-y:auto}
+.viva-spot-dock.is-public-playlist .mv3{padding:12px 13px 0}
+.viva-spot-dock.is-public-playlist .mv3-heading{margin-bottom:7px}
+.viva-spot-dock.is-public-playlist .mv3-official{margin:0;padding:13px}
+.viva-spot-dock.is-public-playlist .mv3-official h3{margin:5px 0!important}
+.viva-spot-dock.is-public-playlist .mv3-official-actions{margin:10px 0 8px}
+.viva-spot-dock.is-public-playlist .mv3-player,
+.viva-spot-dock.is-public-playlist .mv3-library-title,
+.viva-spot-dock.is-public-playlist .mv3-playlists,
+.viva-spot-dock.is-public-playlist .mv3-empty,
+.viva-spot-dock.is-public-playlist .mv3-expand,
+.viva-spot-dock.is-public-playlist .mv3-connect,
+.viva-spot-dock.is-public-playlist .mv3-notice{display:none!important}
+@media(max-height:540px){.viva-spot-dock.is-embed-open{bottom:calc(12px + env(safe-area-inset-bottom));max-height:calc(100dvh - 24px)}}
+@media(max-width:360px){.viva-spot-dock.is-public-playlist .mv3-official{padding:11px}.viva-spot-dock.is-public-playlist .mv3-official-actions{gap:7px}}
+</style></head><body><div class="wrap"><header class="header"><div class="logo">Treine<em> no Lar</em></div><div class="sig" id="streak">Treinos da semana</div></header><div class="viva-offline-banner" id="offline-banner" role="status" aria-live="polite">Sem internet: você pode continuar treinando com os dados deste aparelho.</div><main id="app"><section class="viva-home-top"><div class="kicker">Treine no Lar · TREINO EM CASA</div><h1>Abrindo treinos</h1><p>Carregando o plano e seus registros salvos.</p></section><noscript>Ative o JavaScript para acessar o Treine no Lar.</noscript></main><nav class="nav" id="nav" aria-label="Menu"><span class="viva-nav-loading">Carregando menu…</span></nav><aside id="viva-music-dock" class="viva-spot-dock" aria-label="Música do treino"></aside></div><script src='guide.js?v=1'></script><script src='coach.js?v=4'></script><script src='exercises.js?v=2'></script><script src='evolution.js?v=3'></script><script src='evolution-ui.js?v=2'></script><script src='training.js?v=4'></script><script src='backup.js?v=4'></script><script src='spotify.js?v=7'></script><script>
 (function(){'use strict';const $=s=>document.querySelector(s), app=$('#app'),nav=$('#nav'),store='viva-functional-v2';let data={duration:30,low:true,sound:true,voice:true,countdown:true,volume:0.45,history:[],profile:{heightCm:null,age:null,weighIns:[]},coach:{startedAt:null,gear:{mini:true,long:true},checkins:[],feedback:{},selectedDay:null,selectedDate:null}};try{data=VivaBackup.normalize(JSON.parse(localStorage.getItem(store)||'{}'))}catch{}if(!data.profile)data.profile={heightCm:null,age:null,weighIns:[]};if(!Array.isArray(data.profile.weighIns))data.profile.weighIns=[];if(!data.coach||typeof data.coach!=='object')data.coach={startedAt:null,gear:{mini:true,long:true},checkins:[],feedback:{},selectedDay:null,selectedDate:null};if(!data.coach.gear)data.coach.gear={mini:true,long:true};data.coach.excluded=[...new Set((Array.isArray(data.coach.excluded)?data.coach.excluded:[]).filter(id=>VivaCoach.getExercise(id)))];
  data.coach.preferences=VivaExercises.safePrefs(data.coach.preferences);
  if(!data.coach.replacements||typeof data.coach.replacements!=='object')data.coach.replacements={};
