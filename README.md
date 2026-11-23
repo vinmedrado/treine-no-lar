@@ -119,3 +119,9 @@ A página inicial segue a referência visual aprovada: hero azul com fotografia 
 Camada de CSS `motion-v4.css` e aprimoramento progressivo `motion-v4.js`. O player do Spotify é reposicionado como pílula azul discreta no canto inferior direito do desktop; no celular permanece acima da navegação inferior. A paleta verde foi substituída por variações de azul na interface, sem alterar autenticação, playlists, tokens, SDK ou controles de reprodução.
 
 O hero usa entrada sequencial de tipografia, fotografia revelada por cortina, reflexos de luz e destaque do CTA. Os cartões têm entrada coreografada, os programas apresentam interação mais forte, e o gráfico de evolução anima somente valores reais. Elementos abaixo da dobra só são revelados quando visíveis, usando `IntersectionObserver` quando suportado. Com `prefers-reduced-motion: reduce`, os movimentos ficam desativados e todo o conteúdo permanece acessível. As animações não usam cookies nem serviços externos.
+
+## V5 — Cinematografia e interatividade
+
+Revisão do motion design com entrada sequencial em duas linhas, fotografia revelada por uma transição vertical, parallax limitado ao hero no desktop, rastro de leitura durante a rolagem e revelações específicas para cada seção. Cards de programas usam profundidade 3D com ponteiro no desktop e microinteração de toque no CTA. O gráfico usa somente os registros reais. Nenhuma animação reproduz áudio, altera o cronômetro, o Spotify ou solicita dados externos.
+
+Os arquivos `motion-v5.css` e `motion-v5.js` substituem a camada V4 e preservam a identidade azul do player de música. Em `prefers-reduced-motion: reduce`, não há animações, efeitos 3D nem ocultação das seções. Sem IntersectionObserver/MutationObserver, a página continua legível. O service worker versionado atualiza os dois arquivos de forma offline-first.
