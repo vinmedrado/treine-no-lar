@@ -1,0 +1,13 @@
+/* Téo Smart Walk: collision-aware movement around text and actions. */
+.tln-mascot{transition:left .68s cubic-bezier(.2,.85,.24,1),top .68s cubic-bezier(.2,.85,.24,1),opacity .25s ease;will-change:left,top}
+.tln-mascot.is-smart-walking:not(.is-cheering) .tln-mascot-character{animation:tlnMascotSteps .32s ease-in-out infinite alternate}
+@keyframes tlnMascotSteps{from{transform:translateY(0) rotate(-5deg)}to{transform:translateY(-5px) rotate(5deg)}}
+.tln-mascot.is-auto-docked,.tln-mascot.is-auto-docked.is-snoozed{width:38px}
+.tln-mascot.is-auto-docked .tln-mascot-trigger{width:38px;min-height:46px;max-height:46px;gap:0;background:#fff;border-radius:14px;border:1px solid #bed4f8;box-shadow:0 5px 14px #12376d2e}
+.tln-mascot.is-auto-docked .tln-mascot-character,.tln-mascot.is-auto-docked.is-snoozed .tln-mascot-character{width:36px;height:42px}
+.tln-mascot.is-auto-docked .tln-mascot-name{display:none}
+.tln-mascot.is-no-space{opacity:0;visibility:hidden;pointer-events:none}
+.tln-mascot.is-right-side .tln-mascot-chat{left:auto;right:0;transform-origin:bottom right}
+.tln-mascot.is-right-side .tln-mascot-chat:after{left:auto;right:25px}
+@media(max-width:650px){.tln-mascot.is-auto-docked .tln-mascot-trigger{min-height:45px}}
+@media(prefers-reduced-motion:reduce){.tln-mascot{transition:none!important;will-change:auto}.tln-mascot.is-smart-walking .tln-mascot-character{animation:none!important}}

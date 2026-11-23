@@ -145,3 +145,7 @@ Metadados **Open Graph, Twitter Card e URL canônica** tornam a URL `https://tre
 ## Téo no treino — acompanhamento visual em tempo real
 
 Durante uma sessão o Téo aparece em um card **dentro da tela de cronômetro**, sem cobrir os controles. O motor passa ao mascote a etapa, movimento, pausa, descanso, tempo restante e próximo exercício. Ele reage ao início, mudança de movimento, recuperação, últimos dez segundos, pausa e retomada. Ao concluir uma sessão efetivamente registrada, a comemoração é apresentada no mascote. O usuário pode ocultar/mostrar essas dicas (preferência local). Não há voz adicional, acesso a dados de saúde, API remota ou alteração nas regras do cronômetro. O mascote flutuante continua oculto durante a atividade.
+
+## Téo Smart Walk — navegação sem cobrir textos
+
+O mascote procura espaços vazios usando retângulos de texto por linha, limites de botões, links, menus e Spotify. Ao rolar a página, ele muda suavemente para um espaço próximo apenas se estiver obstruindo algo. Quando não couber, se recolhe em um pequeno ícone lateral; se não houver nem esse espaço, fica temporariamente invisível. O código não usa câmera, dados remotos ou IA externa e respeita movimento reduzido. A versão inline durante o treino permanece fixa no fluxo normal.
