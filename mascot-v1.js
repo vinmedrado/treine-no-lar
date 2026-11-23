@@ -40,7 +40,7 @@
  try{if(g.localStorage?.getItem(prefs)==='yes')root.classList.add('is-snoozed')}catch{}
  function context(){
   const active=nav?.querySelector('button.active')?.dataset.go||'inicio';
-  const completed=!!app?.querySelector('.coach-review')||!!app?.querySelector('.metrics')&&/Treino concluído!/.test(app.textContent||'');
+  const completed=!!app?.querySelector('.metrics')&&/Treino concluído!/.test(app.textContent||'');
   const workout=!!app?.querySelector('.clockbox')||(nav?.classList.contains('hidden')&&!completed);
   return {active,completed,workout};
  }

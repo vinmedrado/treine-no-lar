@@ -1,0 +1,50 @@
+/* Téo v2: contextual companion inside the existing workout layout. */
+.tln-trainer-inline{
+ display:flex;align-items:center;gap:10px;position:relative;
+ margin:12px 0 15px;padding:10px 12px;min-width:0;
+ border:1px solid #cbdcf5;border-left:4px solid #3574df;border-radius:12px;
+ background:linear-gradient(115deg,#eef5ff,#fff);color:#173b70;
+}
+.tln-trainer-avatar{display:grid;place-items:center;flex:0 0 52px;width:52px;height:59px}
+.tln-trainer-avatar img{display:block;width:44px;height:44px;border-radius:10px}
+.tln-trainer-avatar svg.tln-mascot-character{display:block;width:52px;height:58px}
+.tln-trainer-copy{display:flex;flex:1;flex-direction:column;gap:4px;min-width:0;line-height:1.42}
+.tln-trainer-copy b{font-size:11px;color:#285bb1;font-weight:740}
+.tln-trainer-copy>span{font-size:11px;color:#455e81;line-height:1.45;overflow-wrap:anywhere}
+.tln-trainer-seconds{flex:0 0 auto;font-size:12px;font-weight:800;color:#fff;background:#2e65cc;border-radius:7px;padding:7px 6px;min-width:36px;text-align:center;font-variant-numeric:tabular-nums}
+.tln-trainer-seconds[hidden]{display:none!important}
+.tln-trainer-toggle{
+ align-self:flex-start;flex:0 0 auto;padding:5px 7px;
+ border:1px solid #c8d8f1;border-radius:7px;background:#fff;color:#496791;
+ font-size:10px;font-weight:650;white-space:nowrap;cursor:pointer
+}
+.tln-trainer-toggle:focus-visible{outline:3px solid #61a5ff;outline-offset:2px}
+.tln-trainer-inline[data-state="rest"]{border-left-color:#35a2a0;background:linear-gradient(110deg,#e9f9f6,#fff)}
+.tln-trainer-inline[data-state="rest"] .tln-trainer-copy b{color:#267e7b}
+.tln-trainer-inline[data-state="paused"]{border-left-color:#a2adc1;background:#f5f7fa}
+.tln-trainer-inline[data-state="final"]{border-left-color:#f2954c;background:linear-gradient(110deg,#fff3e9,#fff)}
+.tln-trainer-inline[data-state="final"] .tln-trainer-seconds{background:#d8772e}
+.tln-trainer-inline.is-muted{padding:6px 9px;gap:8px;min-height:38px}
+.tln-trainer-inline.is-muted .tln-trainer-copy,.tln-trainer-inline.is-muted .tln-trainer-seconds{display:none!important}
+.tln-trainer-inline.is-muted .tln-trainer-avatar{width:27px;height:30px;flex-basis:27px}
+.tln-trainer-inline.is-muted .tln-trainer-avatar img{width:25px;height:25px}
+.tln-trainer-inline.is-muted .tln-trainer-avatar svg.tln-mascot-character{width:27px;height:30px}
+.tln-trainer-inline.is-muted .tln-trainer-toggle{align-self:center;margin-left:auto}
+.tln-trainer-inline.is-reacting .tln-trainer-avatar{animation:teoEntrance .6s cubic-bezier(.18,.95,.22,1) both}
+.tln-trainer-inline[data-state="rest"]:not(.is-muted) .tln-trainer-avatar{animation:teoBreath 2.6s ease-in-out infinite}
+.tln-trainer-inline[data-state="final"]:not(.is-muted) .tln-trainer-avatar{animation:teoFocus .6s ease-in-out infinite alternate}
+.tln-trainer-inline[data-state="paused"] .tln-trainer-avatar{animation:none}
+@keyframes teoEntrance{0%{transform:translateY(8px) scale(.84)}65%{transform:translateY(-5px) scale(1.09)}100%{transform:none}}
+@keyframes teoBreath{0%,100%{transform:scale(.96)}50%{transform:scale(1.05)}}
+@keyframes teoFocus{from{transform:translateY(0)}to{transform:translateY(-4px)}}
+@media(max-width:650px){
+ .tln-trainer-inline{padding:9px;gap:7px;margin:10px 0 12px}
+ .tln-trainer-avatar{width:42px;height:48px;flex-basis:42px}
+ .tln-trainer-avatar svg.tln-mascot-character{width:42px;height:48px}
+ .tln-trainer-copy b,.tln-trainer-copy>span{font-size:10px}
+ .tln-trainer-toggle{padding:5px;font-size:9px}
+}
+@media(max-width:350px){.tln-trainer-inline{flex-wrap:wrap}.tln-trainer-toggle{margin-left:auto}}
+@media(prefers-reduced-motion:reduce){
+ .tln-trainer-inline .tln-trainer-avatar{animation:none!important;transition:none!important;transform:none!important}
+}

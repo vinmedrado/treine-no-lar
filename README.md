@@ -141,3 +141,7 @@ O desenho das letras deixa de depender da Segoe UI para adotar uma identidade es
 A identidade do cabeçalho usa **o mesmo `favicon.svg` do PWA**, substituindo o círculo textual. O mascote **Téo** é uma casinha-atleta original em SVG integrado, com dicas contextuais e botões funcionais para plano semanal, circuitos, evolução e Spotify. A opção de deixá-lo menor é persistida apenas no navegador, sem armazenar dados pessoais. Ele se oculta durante o cronômetro e quando o painel Spotify está expandido; efeitos respeitam a preferência de movimento reduzido.
 
 Metadados **Open Graph, Twitter Card e URL canônica** tornam a URL `https://treinenolar.vinmedrado.com/` compartilhável com minicapa própria `social-preview.png` (1200 × 630, PNG), título e descrição. WhatsApp/LinkedIn/etc. podem manter prévias em cache por algum tempo e cada aplicativo decide quando exibir sua própria prévia.
+
+## Téo no treino — acompanhamento visual em tempo real
+
+Durante uma sessão o Téo aparece em um card **dentro da tela de cronômetro**, sem cobrir os controles. O motor passa ao mascote a etapa, movimento, pausa, descanso, tempo restante e próximo exercício. Ele reage ao início, mudança de movimento, recuperação, últimos dez segundos, pausa e retomada. Ao concluir uma sessão efetivamente registrada, a comemoração é apresentada no mascote. O usuário pode ocultar/mostrar essas dicas (preferência local). Não há voz adicional, acesso a dados de saúde, API remota ou alteração nas regras do cronômetro. O mascote flutuante continua oculto durante a atividade.
