@@ -30,6 +30,8 @@ jobs:
         uses: actions/upload-pages-artifact@v4
         with:
           path: .
+      - name: Aguardar pacote do Pages ficar disponivel
+        run: sleep 12
       - name: Publicar
         id: deployment
         uses: actions/deploy-pages@v4
