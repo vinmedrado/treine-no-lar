@@ -1,6 +1,6 @@
 # Treine no Lar — Treinos guiados em casa
 
-Aplicativo independente de treino em casa, com plano semanal de força e cardio, cronômetro, acompanhamento da evolução e controle opcional de músicas no Spotify. É uma evolução do antigo VIVA, que permanece acessível para exportação do histórico.
+Aplicativo independente de treino em casa, com plano semanal de força e cardio, cronômetro, acompanhamento da evolução e controle opcional de músicas no Spotify. É uma evolução do antigo VIVA, que foi removido da publicação do portfólio.
 
 Versão pública: https://treinenolar.vinmedrado.com/. Consulte [MIGRACAO.md](./MIGRACAO.md) apenas para instruções históricas sobre a migração.
 
@@ -107,3 +107,9 @@ O Client ID é um identificador público distribuído no código da página; o n
 A interface possui barra lateral no desktop, navegação inferior no celular e um painel inicial com hierarquia de leitura clara. O design está no arquivo `theme-v2.css`, sem fontes nem imagens externas.
 
 O indicador discreto do cabeçalho usa `site-visits.js` e a API pública de https://counterapi.com/. Trata-se de **acessos registrados após a instalação**, não de visitantes únicos ou pessoas online. Uma aba contabiliza no máximo uma vez por sessão; falhas ocultam o indicador e não inventam números. O serviço recebe os metadados normais de uma requisição HTTPS (como IP) e informa usar anonimização, sem receber dados de treino ou tokens do Spotify. Como o aplicativo continua estático no GitHub Pages, a contagem depende deste serviço de terceiros.
+
+## V3 — Interface editorial
+
+A página inicial segue a referência visual aprovada: hero azul com fotografia real, navegação horizontal no desktop e inferior no celular, quatro atalhos, treino sugerido usando dados reais, circuitos 20/30/45 minutos, gráfico de sessões reais dos sete dias anteriores e Spotify integrado. As regras de negócio e dados locais continuam intactos.
+
+**Fotografias licenciadas (Pexels):** [Kampus Production](https://www.pexels.com/photo/a-woman-doing-exercise-while-recording-herself-8173441/) e [MART PRODUCTION](https://www.pexels.com/photo/man-exercising-at-home-8846442/). As imagens carregam do CDN do Pexels quando há conexão; o restante do aplicativo preserva o modo offline. CSS em `theme-v3.css`.
