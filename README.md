@@ -131,3 +131,7 @@ Os arquivos `motion-v5.css` e `motion-v5.js` substituem a camada V4 e preservam 
 Acabamento editorial com pesos tipográficos moderados, espaçamento explícito entre "Treine" e "no Lar", selo "MOVIMENTO EM QUALQUER LUGAR" posicionado acima dos quatro atalhos sem colisões e título com respiro suficiente entre as linhas.
 
 A fotografia secundária nunca é ocultada pelo sistema de animações de rolagem: conteúdos ficam visíveis por padrão e recebem uma breve animação ao entrar na tela. Caso a foto original do Pexels falhe, o aplicativo tenta outra foto real de exercícios em casa e, se também falhar (inclusive offline), apresenta um placeholder integrado à identidade azul. Nenhum script externo foi acrescentado. Versões 2 dos estilos e controlador V5 atualizadas no cache do PWA.
+
+## V7 — Tipografia editorial
+
+O desenho das letras deixa de depender da Segoe UI para adotar uma identidade esportiva: títulos e marca em **Barlow Condensed** (600/700), texto funcional em **IBM Plex Sans** (400/500/600). A composição e os textos do aplicativo permanecem iguais. As fontes são servidas pelo Google Fonts com `display=swap`; em caso de indisponibilidade ou uso offline sem cache, há fallback para fontes locais. As fontes não estão incluídas no repositório nem são armazenadas no Service Worker, que continua cacheando somente os recursos da aplicação. CSS em `typography-v7.css`.

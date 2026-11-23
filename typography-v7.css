@@ -1,0 +1,187 @@
+
+/*
+ * TREINE NO LAR — Typography V7
+ * Editorial sports: Barlow Condensed for headlines; IBM Plex Sans for utility.
+ * Separate typographic voice: not Inter / Segoe UI / generic geometric templates.
+ */
+:root{
+ --tln-display:"Barlow Condensed","Arial Narrow","Liberation Sans Narrow",Arial,sans-serif;
+ --tln-body:"IBM Plex Sans","Segoe UI",Arial,sans-serif;
+}
+html,body,.wrap{
+ font-family:var(--tln-body);
+ font-weight:400;
+ font-synthesis:none;
+ letter-spacing:0;
+}
+button,input,select,textarea{font-family:var(--tln-body)}
+/* Header: real typographic wordmark, intentionally separated words. */
+.logo{
+ font-family:var(--tln-display);
+ font-size:clamp(27px,2.55vw,33px);
+ line-height:1;
+ letter-spacing:.005em;
+ font-weight:700;
+}
+.v6-logo-wordmark{display:inline-flex;align-items:baseline;gap:.28em;white-space:nowrap}
+.v6-logo-wordmark>span:first-child{font-weight:700;color:#fff}
+.v6-logo-wordmark .v6-logo-last{font-weight:600;color:#cfdeff;letter-spacing:0}
+.v3-logo-mark{
+ width:38px;height:38px;flex:0 0 38px;
+ font-family:var(--tln-body);
+ font-size:11px;font-weight:700;
+ letter-spacing:0;margin-right:13px;
+}
+/* Headline: tall editorial letterforms, not the round 800+ SaaS look. */
+.v3-hero h1{
+ font-family:var(--tln-display);
+ font-size:clamp(56px,5.2vw,76px);
+ font-weight:600;
+ line-height:.99;
+ letter-spacing:.002em;
+ max-width:640px;
+ margin:18px 0 17px;
+ text-wrap:pretty;
+}
+.v3-hero h1 em{font-family:inherit;font-weight:600;letter-spacing:inherit}
+.v5-headline-line{padding-bottom:.14em;margin-bottom:-.14em;overflow:clip}
+.v5-headline-line>span{font-weight:600}
+.v3-hero-copy>p{
+ font-family:var(--tln-body);
+ font-weight:400;
+ font-size:14px;
+ line-height:1.65;
+ letter-spacing:0;
+}
+.v3-hero-kicker{
+ font-family:var(--tln-body);
+ font-weight:600;
+ font-size:10px;
+ letter-spacing:.075em;
+}
+.v3-hero-foot{font-family:var(--tln-body);font-weight:400;font-size:11px}
+.v3-btn{font-family:var(--tln-body);font-weight:600;font-size:12px;letter-spacing:0}
+.nav button{font-family:var(--tln-body);font-weight:500;letter-spacing:0;font-size:12px}
+.nav button.active{font-weight:600}
+.sig,.site-visits{font-family:var(--tln-body);font-weight:500}
+/* Editorial headings instead of generic product-template headings. */
+.v3-today-detail h2,.v3-section-title h2,
+.v3-progress-panel h2,.v3-spotify-panel h2{
+ font-family:var(--tln-display);
+ font-size:clamp(34px,3.4vw,43px);
+ font-weight:600;
+ line-height:1.08;
+ letter-spacing:.003em;
+ overflow-wrap:break-word;
+}
+.v3-today-detail h2{font-size:clamp(33px,3vw,41px)}
+.v3-progress-panel h2,.v3-spotify-panel h2{font-size:clamp(32px,3vw,40px)}
+.v3-eyebrow,.v3-program-top{
+ font-family:var(--tln-body);
+ font-weight:600;
+ letter-spacing:.075em;
+ font-size:10px;
+}
+.v3-today-detail p,.v3-progress-panel p,.v3-spotify-panel p{
+ font-family:var(--tln-body);
+ font-size:13px;
+ font-weight:400;
+ line-height:1.67;
+}
+.v3-shortcut b{
+ font-family:var(--tln-body);
+ font-size:13px;
+ font-weight:600;
+ letter-spacing:0;
+ line-height:1.3;
+}
+.v3-shortcut small,.v3-program>small{font-family:var(--tln-body);font-weight:400}
+.v3-program>b{
+ font-family:var(--tln-display);
+ font-size:23px;
+ font-weight:600;
+ letter-spacing:0;
+ line-height:1.05;
+}
+.v3-program-time strong{
+ font-family:var(--tln-display);
+ font-size:65px;
+ font-weight:600;
+ line-height:.85;
+ letter-spacing:0;
+ font-variant-numeric:tabular-nums;
+}
+.v3-stats strong{
+ font-family:var(--tln-display);
+ font-size:30px;
+ font-weight:600;
+ line-height:1;
+ letter-spacing:0;
+}
+.v3-stats small,.v3-program-time,.v3-program>small,.v3-program-bottom,
+.v3-tags span,.v3-link,.v3-footer,.v3-chart-day small{
+ font-family:var(--tln-body);
+}
+.v3-program-bottom,.v3-link,.v3-stats button{font-weight:600}
+.v3-hero-photo small{
+ font-family:var(--tln-body);
+ font-weight:600;
+ font-size:10px;
+ letter-spacing:.035em;
+}
+.v3-today-photo small{
+ font-family:var(--tln-body);
+ font-weight:600;
+ letter-spacing:.05em;
+}
+/* Secondary pages stay legible and consistent; avoid redoing their structure. */
+.plainhead h1,.coach-hero h2,.coach-daycard h2,.library-intro h2,
+.library-preview h2,.coach-review h2{
+ font-family:var(--tln-display);
+ font-weight:600;
+ letter-spacing:0;
+ line-height:1.12;
+}
+.plainhead h1{font-size:33px}
+.coach-hero h2,.coach-daycard h2,.library-intro h2,
+.library-preview h2{font-size:28px}
+.section h2{font-family:var(--tln-display);font-size:28px;font-weight:600;letter-spacing:0}
+.viva-spot-dock{font-family:var(--tln-body)}
+.viva-spot-mini-text b{font-family:var(--tln-body);font-weight:600}
+.mv3-heading b{font-family:var(--tln-body);font-weight:600}
+@media(min-width:1020px){
+ .v3-hero h1{font-size:clamp(61px,5vw,76px)}
+ .nav button{font-size:12px!important}
+}
+@media(max-width:1019px){
+ .logo{font-size:29px}
+ .v3-hero h1{font-size:clamp(48px,6.5vw,66px);line-height:1}
+ .v3-program-time strong{font-size:58px}
+}
+@media(max-width:650px){
+ .logo{font-size:26px}
+ .v3-logo-mark{width:32px;height:32px;flex-basis:32px;margin-right:9px}
+ .v6-logo-wordmark{gap:.24em}
+ .v3-hero h1{
+  font-size:clamp(47px,10.8vw,62px);
+  line-height:.99;letter-spacing:0;
+  margin:13px 0 12px;
+ }
+ .v3-hero-copy>p{font-size:13px;line-height:1.58}
+ .v3-today-detail h2{font-size:35px}
+ .v3-section-title h2{font-size:36px}
+ .v3-progress-panel h2,.v3-spotify-panel h2{font-size:35px}
+ .v3-program>b{font-size:21px}
+ .v3-program-time strong{font-size:51px}
+ .v3-shortcut b{font-size:11px}
+ .v3-stats strong{font-size:27px}
+ .nav button{font-size:9px!important}
+}
+@media(max-width:360px){
+ .logo{font-size:23px}
+ .v3-logo-mark{width:29px;height:29px;flex-basis:29px;margin-right:6px}
+ .v6-logo-wordmark{gap:.20em}
+ .v3-hero h1{font-size:clamp(43px,12vw,48px)}
+ .v3-today-detail h2{font-size:33px}
+ .v3-section-title h2{font-size:33px}
+}
