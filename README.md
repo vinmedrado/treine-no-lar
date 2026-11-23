@@ -135,3 +135,9 @@ A fotografia secundária nunca é ocultada pelo sistema de animações de rolage
 ## V7 — Tipografia editorial
 
 O desenho das letras deixa de depender da Segoe UI para adotar uma identidade esportiva: títulos e marca em **Barlow Condensed** (600/700), texto funcional em **IBM Plex Sans** (400/500/600). A composição e os textos do aplicativo permanecem iguais. As fontes são servidas pelo Google Fonts com `display=swap`; em caso de indisponibilidade ou uso offline sem cache, há fallback para fontes locais. As fontes não estão incluídas no repositório nem são armazenadas no Service Worker, que continua cacheando somente os recursos da aplicação. CSS em `typography-v7.css`.
+
+## Téo, mascote interativo e compartilhamento
+
+A identidade do cabeçalho usa **o mesmo `favicon.svg` do PWA**, substituindo o círculo textual. O mascote **Téo** é uma casinha-atleta original em SVG integrado, com dicas contextuais e botões funcionais para plano semanal, circuitos, evolução e Spotify. A opção de deixá-lo menor é persistida apenas no navegador, sem armazenar dados pessoais. Ele se oculta durante o cronômetro e quando o painel Spotify está expandido; efeitos respeitam a preferência de movimento reduzido.
+
+Metadados **Open Graph, Twitter Card e URL canônica** tornam a URL `https://treinenolar.vinmedrado.com/` compartilhável com minicapa própria `social-preview.png` (1200 × 630, PNG), título e descrição. WhatsApp/LinkedIn/etc. podem manter prévias em cache por algum tempo e cada aplicativo decide quando exibir sua própria prévia.

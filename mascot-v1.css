@@ -1,0 +1,105 @@
+/* Treine no Lar — Téo, guia interativo; marca real do PWA no cabeçalho */
+.header .logo{display:inline-flex;align-items:center;gap:0;min-width:0}
+.tln-pwa-brand-icon{
+ width:42px;height:42px;flex:0 0 42px;object-fit:contain;display:block;
+ border:1px solid #c7dcff73;border-radius:12px;background:#fff9;
+ box-shadow:0 2px 8px #041d5540;
+}
+.tln-brand-wordmark{
+ display:inline-block;margin-left:11px;color:#fff;
+ font-family:"IBM Plex Sans","Segoe UI",Arial,sans-serif;
+ font-size:clamp(18px,1.9vw,22px);font-weight:600;letter-spacing:-.015em;
+ line-height:1.13;white-space:nowrap;
+}
+.tln-mascot{
+ position:fixed;left:clamp(12px,2.5vw,34px);bottom:18px;
+ z-index:39;width:84px;max-width:calc(100vw - 30px);
+ pointer-events:none;color:#19365f;
+ font-family:"IBM Plex Sans","Segoe UI",Arial,sans-serif;
+}
+.tln-mascot[hidden]{display:none!important}
+.tln-mascot-trigger{
+ pointer-events:auto;display:flex;flex-direction:column;align-items:center;
+ justify-content:center;gap:1px;width:78px;min-height:101px;
+ background:none;border:0;padding:0;cursor:pointer;
+ transform-origin:50% 90%;filter:drop-shadow(0 7px 9px #0e317c3d);
+}
+.tln-mascot-trigger:focus-visible,.tln-mascot button:focus-visible{
+ outline:3px solid #56a4ff;outline-offset:3px;border-radius:10px;
+}
+.tln-mascot-character{display:block;width:78px;height:88px;overflow:visible;transform-origin:50% 86%}
+.tln-mascot-name{
+ display:inline-block;margin-top:-2px;padding:3px 10px;background:#153e91;color:#fff;
+ font-size:10px;line-height:1.1;font-weight:700;border-radius:18px;border:1px solid #99bcff;
+}
+.tln-mascot-character .tln-coach-roof,.tln-mascot-character .tln-coach-arm,.tln-mascot-character .tln-coach-leg{
+ transform-origin:50% 75%;transition:transform .32s cubic-bezier(.16,1,.3,1);
+}
+.tln-mascot-trigger:hover .tln-mascot-character{animation:tlnCoachNod .55s ease-in-out both}
+.tln-mascot.is-cheering .tln-mascot-character{animation:tlnCoachCheer .7s cubic-bezier(.16,1,.3,1) both}
+.tln-mascot.is-cheering .tln-coach-arm-left{transform:rotate(12deg)}
+.tln-mascot.is-cheering .tln-coach-arm-right{transform:rotate(-12deg)}
+.tln-mascot.is-snoozed{width:52px}
+.tln-mascot.is-snoozed .tln-mascot-trigger{width:52px;min-height:58px}
+.tln-mascot.is-snoozed .tln-mascot-character{width:48px;height:57px}
+.tln-mascot.is-snoozed .tln-mascot-name{display:none}
+.tln-mascot-chat{
+ pointer-events:auto;position:absolute;bottom:110px;left:3px;width:292px;
+ border:1px solid #cadcf5;border-radius:15px;
+ padding:17px 16px 15px;background:#fff;color:#18375f;
+ box-shadow:0 19px 45px #0b2b6260,0 3px 9px #17397512;
+ max-width:calc(100vw - 26px);
+ transform-origin:bottom left;
+}
+.tln-mascot-chat[hidden]{display:none!important}
+.tln-mascot-chat:after{
+ content:"";position:absolute;width:11px;height:11px;background:#fff;bottom:-7px;left:30px;
+ transform:rotate(45deg);border-right:1px solid #cadcf5;border-bottom:1px solid #cadcf5;
+}
+.tln-mascot-chat-head{display:flex;justify-content:space-between;gap:8px;align-items:center}
+.tln-mascot-chat-head strong{color:#163d86;font-size:13px;letter-spacing:-.01em}
+.tln-mascot-chat-close{
+ display:grid;place-items:center;background:#eef4ff;border:0;border-radius:7px;
+ color:#2154ab;width:27px;height:27px;font-size:17px;cursor:pointer;
+}
+.tln-mascot-chat p{font-size:12px;line-height:1.55;margin:9px 0 13px;color:#455c7b}
+.tln-mascot-actions{display:flex;gap:7px;flex-wrap:wrap}
+.tln-mascot-actions button{
+ padding:9px 10px;border:1px solid #c9daf5;border-radius:8px;background:#edf4ff;
+ font-size:11px;font-weight:650;color:#204f9f;cursor:pointer;
+}
+.tln-mascot-actions button:first-child{background:#225ecb;color:#fff;border-color:#225ecb}
+.tln-mascot-options{border-top:1px solid #edf1f8;margin-top:12px;padding-top:10px}
+.tln-mascot-options button{font-size:10px;color:#7b8da5;background:none;border:0;padding:0;text-decoration:underline;cursor:pointer}
+.tln-mascot.is-open .tln-mascot-chat{animation:tlnChatIn .28s cubic-bezier(.16,1,.3,1) both}
+@keyframes tlnChatIn{from{opacity:0;transform:translateY(15px) scale(.94)}to{opacity:1;transform:translateY(0) scale(1)}}
+@keyframes tlnCoachNod{0%{transform:rotate(0)}35%{transform:rotate(-8deg) scale(1.06)}70%{transform:rotate(5deg)}100%{transform:rotate(0)}}
+@keyframes tlnCoachCheer{0%{transform:translateY(0) rotate(0)}35%{transform:translateY(-14px) rotate(-9deg)}65%{transform:translateY(-9px) rotate(8deg)}100%{transform:translateY(0) rotate(0)}}
+/* One purposeful upgrade to existing motion: clear tactile CTA, not endless glow */
+.v3-btn-primary:active{transform:translateY(1px) scale(.97);box-shadow:0 4px 12px #0b2e6b55}
+.v3-program:active,.v3-shortcut:active{transform:translateY(1px) scale(.987)}
+.v3-program-time strong{transition:transform .48s cubic-bezier(.12,.98,.23,1)}
+.v3-program:hover .v3-program-time strong{transform:translateY(-7px) scale(1.13)}
+@media(min-width:1020px){.tln-mascot{bottom:19px}}
+@media(max-width:1019px){
+ .tln-mascot{left:10px;bottom:calc(147px + env(safe-area-inset-bottom))}
+ .tln-mascot-chat{width:min(290px,calc(100vw - 28px));bottom:104px;left:0}
+}
+@media(max-width:650px){
+ .tln-pwa-brand-icon{width:35px;height:35px;flex-basis:35px;border-radius:10px}
+ .tln-brand-wordmark{font-size:17px;margin-left:8px}
+ .tln-mascot-trigger{width:62px;min-height:79px}
+ .tln-mascot-character{width:62px;height:70px}
+ .tln-mascot-chat{bottom:85px}
+ .tln-mascot{width:66px}
+}
+@media(max-width:360px){
+ .tln-pwa-brand-icon{width:30px;height:30px;flex-basis:30px}
+ .tln-brand-wordmark{font-size:15px;margin-left:6px}
+ .tln-mascot-chat{width:min(285px,calc(100vw - 21px))}
+}
+@media(prefers-reduced-motion:reduce){
+ .tln-mascot .tln-mascot-character,.tln-mascot.is-cheering .tln-mascot-character,
+ .tln-mascot.is-open .tln-mascot-chat,.tln-mascot .tln-coach-arm,
+ .v3-program-time strong{animation:none!important;transition:none!important;transform:none!important}
+}

@@ -1,6 +1,6 @@
 /* Treine no Lar — offline-first asset cache (same-origin, app scope only). */
-const CACHE='treine-no-lar-cache-20261123-v7-r1';
-const CORE=['./','./index.html','./coach.js?v=4','./exercises.js?v=2','./evolution.js?v=3','./evolution-ui.js?v=2','./training.js?v=4','./guide.js?v=1','./backup.js?v=4','./spotify.js?v=7','./theme-v3.css?v=2','./motion-v5.css?v=2','./typography-v7.css?v=1','./motion-v5.js?v=2','./site-visits.js?v=1','./manifest.webmanifest','./favicon.svg'];
+const CACHE='treine-no-lar-cache-20261123-mascot-social-r1';
+const CORE=['./','./index.html','./coach.js?v=4','./exercises.js?v=2','./evolution.js?v=3','./evolution-ui.js?v=2','./training.js?v=4','./guide.js?v=1','./backup.js?v=4','./spotify.js?v=7','./theme-v3.css?v=2','./motion-v5.css?v=2','./typography-v7.css?v=1','./mascot-v1.css?v=1','./mascot-v1.js?v=1','./social-preview.png','./motion-v5.js?v=2','./site-visits.js?v=1','./manifest.webmanifest','./favicon.svg'];
 self.addEventListener('install',event=>{
  event.waitUntil((async()=>{const cache=await caches.open(CACHE);await cache.addAll(CORE);await self.skipWaiting()})());
 });
