@@ -113,3 +113,9 @@ O indicador discreto do cabeçalho usa `site-visits.js` e a API pública de http
 A página inicial segue a referência visual aprovada: hero azul com fotografia real, navegação horizontal no desktop e inferior no celular, quatro atalhos, treino sugerido usando dados reais, circuitos 20/30/45 minutos, gráfico de sessões reais dos sete dias anteriores e Spotify integrado. As regras de negócio e dados locais continuam intactos.
 
 **Fotografias licenciadas (Pexels):** [Kampus Production](https://www.pexels.com/photo/a-woman-doing-exercise-while-recording-herself-8173441/) e [MART PRODUCTION](https://www.pexels.com/photo/man-exercising-at-home-8846442/). As imagens carregam do CDN do Pexels quando há conexão; o restante do aplicativo preserva o modo offline. CSS em `theme-v3.css`.
+
+## V4 — Movimento cinematográfico e áudio discreto
+
+Camada de CSS `motion-v4.css` e aprimoramento progressivo `motion-v4.js`. O player do Spotify é reposicionado como pílula azul discreta no canto inferior direito do desktop; no celular permanece acima da navegação inferior. A paleta verde foi substituída por variações de azul na interface, sem alterar autenticação, playlists, tokens, SDK ou controles de reprodução.
+
+O hero usa entrada sequencial de tipografia, fotografia revelada por cortina, reflexos de luz e destaque do CTA. Os cartões têm entrada coreografada, os programas apresentam interação mais forte, e o gráfico de evolução anima somente valores reais. Elementos abaixo da dobra só são revelados quando visíveis, usando `IntersectionObserver` quando suportado. Com `prefers-reduced-motion: reduce`, os movimentos ficam desativados e todo o conteúdo permanece acessível. As animações não usam cookies nem serviços externos.
