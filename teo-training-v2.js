@@ -34,7 +34,7 @@
   const next=String(info.nextName||'próximo exercício').slice(0,120);
   const phase=String(info.phase||'Treino');
   const changed=info.stepIndex!==lastStep,first=!started;
-  const mode=paused?'paused':rest?'rest':secs<=10?'final':changed?'change':'active';
+  const mode=paused?'paused':rest?'rest':secs<=10?'final':'active';
   const lastWasPaused=lastMode==='paused';
   if(changed||mode!==lastMode||first){
    let heading='Téo está com você',msg='Siga no seu ritmo e cuide da execução.';
@@ -74,7 +74,7 @@
    const bubble=doc.getElementById('tln-mascot-message');
    if(bubble)bubble.textContent='Treino concluído! Mais uma sessão registrada. Muito bem!';
   };
-  if(g.requestAnimationFrame)g.requestAnimationFrame(celebrate);
+  if(g.requestAnimationFrame)g.requestAnimationFrame(()=>g.requestAnimationFrame(celebrate));
   else celebrate();
  }
  app.addEventListener('click',event=>{
@@ -84,5 +84,6 @@
   try{g.localStorage?.setItem(key,muted?'yes':'no')}catch{}
   const node=card();if(node)applyMuted(node);
  });
- Object.assign(coach,{startWorkout,updateWorkout,finishWorkout,get workoutMuted(){return muted}});
+ Object.assign(coach,{startWorkout,updateWorkout,finishWorkout});
+ Object.defineProperty(coach,'workoutMuted',{get:()=>muted,configurable:true});
 })(window,document);
