@@ -2,7 +2,7 @@
 
 Aplicativo independente de treino em casa, com plano semanal de força e cardio, cronômetro, acompanhamento da evolução e controle opcional de músicas no Spotify. É uma evolução do antigo VIVA, que permanece acessível para exportação do histórico.
 
-Leia [MIGRACAO.md](./MIGRACAO.md) antes de publicar.
+Versão pública: https://treinenolar.vinmedrado.com/. Consulte [MIGRACAO.md](./MIGRACAO.md) apenas para instruções históricas sobre a migração.
 
 Aplicativo de treinos em casa com plano semanal de força e cardio, cronômetro, acompanhamento local e funcionamento offline. As recomendações são calculadas por regras explícitas; **não há IA generativa nem avaliação de movimentos por câmera**.
 
@@ -101,3 +101,9 @@ O Client ID é um identificador público distribuído no código da página; o n
 **Limites atuais da plataforma (novembro de 2026)**: apps novos em Development Mode exigem Premium do proprietário, permitem até cinco usuários autenticados por app, e o limite de criação foi ampliado para até 25 Client IDs por conta de desenvolvedor em julho de 2026. Não anuncie a integração como disponível a qualquer visitante do portfólio. O Spotify Web Playback SDK não pode ser usado em projetos comerciais sem autorização da plataforma. A música não pode ser alterada ou sincronizada com vídeo pelo aplicativo. Consulte a [documentação oficial](https://developer.spotify.com/documentation/web-playback-sdk) e as [regras de desenvolvimento de fevereiro de 2026](https://developer.spotify.com/documentation/web-api/tutorials/february-2026-migration-guide).
 
 **Revisão visual para iPhone (novembro de 2026):** removidos estilos conflitantes de versões anteriores; cabeçalho compacto, painel com rolagem apenas vertical, formulário de link e configuração técnica recolhidos, atalho de música duplicado ocultado quando o player compacto já está disponível. A validação visual em Safari/Chrome iOS deve ser feita no aparelho; testes automatizados não substituem essa conferência.
+
+## Interface 2.0 e contador de acessos
+
+A interface possui barra lateral no desktop, navegação inferior no celular e um painel inicial com hierarquia de leitura clara. O design está no arquivo `theme-v2.css`, sem fontes nem imagens externas.
+
+O indicador discreto do cabeçalho usa `site-visits.js` e a API pública de https://counterapi.com/. Trata-se de **acessos registrados após a instalação**, não de visitantes únicos ou pessoas online. Uma aba contabiliza no máximo uma vez por sessão; falhas ocultam o indicador e não inventam números. O serviço recebe os metadados normais de uma requisição HTTPS (como IP) e informa usar anonimização, sem receber dados de treino ou tokens do Spotify. Como o aplicativo continua estático no GitHub Pages, a contagem depende deste serviço de terceiros.
