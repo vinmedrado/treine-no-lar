@@ -200,3 +200,40 @@
  .v3-program:hover,.v3-shortcut:hover,.v3-btn:hover{transition:none!important;transform:none!important}
  .v5-ripple{display:none!important}
 }
+
+
+/* V6 — Never hide real content while waiting for a scroll observer.
+   Animation runs ON the visible class; screenshot/offline/no-JS always shows images. */
+#app .v5-motion-on .v5-scene,
+#app .v5-motion-on .v5-mask,
+#app .v5-motion-on .v5-slide-left,
+#app .v5-motion-on .v5-slide-right,
+#app .v5-motion-on .v5-lift,
+#app .v5-motion-on .v5-title-wipe{
+ opacity:1;transform:none;clip-path:none;filter:none;transition:none;
+}
+#app .v5-motion-on .v5-scene.is-visible{
+ animation:v6SceneArrival .72s cubic-bezier(.18,.9,.2,1) var(--v5-delay,0ms) both;
+}
+#app .v5-motion-on .v3-today-photo.v5-scene.is-visible{
+ animation:v6PhotoArrival .82s cubic-bezier(.18,.9,.2,1) both;
+}
+#app .v5-motion-on .v3-section-title.v5-scene.is-visible{
+ animation:v6SceneArrival .60s cubic-bezier(.18,.9,.2,1) both;
+}
+.v5-headline-line{padding-bottom:.16em;margin-bottom:-.16em}
+@keyframes v6SceneArrival{
+ from{opacity:.35;transform:translate3d(0,26px,0)}
+ to{opacity:1;transform:translate3d(0,0,0)}
+}
+@keyframes v6PhotoArrival{
+ from{opacity:.45;transform:translate3d(-28px,0,0)}
+ to{opacity:1;transform:translate3d(0,0,0)}
+}
+@media(prefers-reduced-motion:reduce){
+ #app .v5-motion-on .v5-scene.is-visible,
+ #app .v5-motion-on .v3-today-photo.v5-scene.is-visible,
+ #app .v5-motion-on .v3-section-title.v5-scene.is-visible{
+  animation:none!important;opacity:1!important;transform:none!important;
+ }
+}

@@ -125,3 +125,9 @@ O hero usa entrada sequencial de tipografia, fotografia revelada por cortina, re
 Revisão do motion design com entrada sequencial em duas linhas, fotografia revelada por uma transição vertical, parallax limitado ao hero no desktop, rastro de leitura durante a rolagem e revelações específicas para cada seção. Cards de programas usam profundidade 3D com ponteiro no desktop e microinteração de toque no CTA. O gráfico usa somente os registros reais. Nenhuma animação reproduz áudio, altera o cronômetro, o Spotify ou solicita dados externos.
 
 Os arquivos `motion-v5.css` e `motion-v5.js` substituem a camada V4 e preservam a identidade azul do player de música. Em `prefers-reduced-motion: reduce`, não há animações, efeitos 3D nem ocultação das seções. Sem IntersectionObserver/MutationObserver, a página continua legível. O service worker versionado atualiza os dois arquivos de forma offline-first.
+
+## V6 — Tipografia e imagens
+
+Acabamento editorial com pesos tipográficos moderados, espaçamento explícito entre "Treine" e "no Lar", selo "MOVIMENTO EM QUALQUER LUGAR" posicionado acima dos quatro atalhos sem colisões e título com respiro suficiente entre as linhas.
+
+A fotografia secundária nunca é ocultada pelo sistema de animações de rolagem: conteúdos ficam visíveis por padrão e recebem uma breve animação ao entrar na tela. Caso a foto original do Pexels falhe, o aplicativo tenta outra foto real de exercícios em casa e, se também falhar (inclusive offline), apresenta um placeholder integrado à identidade azul. Nenhum script externo foi acrescentado. Versões 2 dos estilos e controlador V5 atualizadas no cache do PWA.

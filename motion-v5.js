@@ -137,6 +137,23 @@
   }
  }
  function scheduleScroll(){if(scrollQueued||!home||reduced())return;scrollQueued=true;if(g.requestAnimationFrame)g.requestAnimationFrame(paintScroll);else paintScroll()}
+ function setupImageFallbacks(host){
+  host.querySelectorAll('img[data-fallback-src]').forEach(img=>{
+   const onError=()=>{
+    if(!img.dataset.fallbackTried){
+     img.dataset.fallbackTried='yes';
+     const fallback=img.dataset.fallbackSrc;
+     if(fallback && /^https:\/\/images\.pexels\.com\/photos\/\d+\/pexels-photo-\d+\.jpeg\?/.test(fallback)){
+      img.src=fallback;return;
+     }
+    }
+    img.closest('.v3-today-photo')?.classList.add('is-image-unavailable');
+   };
+   img.addEventListener('error',onError);
+   cleanupEvents.push(()=>img.removeEventListener('error',onError));
+   if(img.complete && img.naturalWidth===0)onError();
+  });
+ }
  function setup(host){
   cleanup();
   home=host;
@@ -144,6 +161,7 @@
   if(reduced()){host.classList.remove('v5-motion-on');return}
   if(seenHome)host.classList.add('v5-returning');
   revealScenes(host);
+  setupImageFallbacks(host);
   addHeroDepth(host);
   tiltPrograms(host);
   host.classList.add('v5-motion-on');
