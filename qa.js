@@ -124,6 +124,8 @@ function run(){
  test('Volume muscular semanal acompanha as séries sugeridas',()=>T.weeklyMuscleSets(6,30,{mini:true,long:true},[],{noJump:true},{},safeHist,safeFeedback,now2,'normal').days.every(d=>d.sets===3));
 
  const S=g.VivaSpotify;
+ test('Playlist pública oficial aponta para o Spotify',()=>S.officialPlaylist.id==='5YemM9AtFz0kVteTl0x4ZH'&&S.officialPlaylist.url==='https://open.spotify.com/playlist/5YemM9AtFz0kVteTl0x4ZH');
+ test('Playlist pública aceita formato Spotify e não exige autenticação do app',()=>S.playlistId(S.officialPlaylist.url)===S.officialPlaylist.id&&!S.connected);
  test('Spotify não aceita link de outro domínio',()=>S.playlistId('https://example.com/playlist/37i9dQZF1DXcBWIGoYBM5M')==='');
  test('Spotify aceita link oficial com parâmetros',()=>S.playlistId('https://open.spotify.com/playlist/37i9dQZF1DXcBWIGoYBM5M?si=abc')==='37i9dQZF1DXcBWIGoYBM5M');
  test('Spotify aceita playlist pelo formato de URI',()=>S.playlistId('spotify:playlist:37i9dQZF1DXcBWIGoYBM5M')==='37i9dQZF1DXcBWIGoYBM5M');

@@ -2,8 +2,9 @@
 const CLIENT='viva-spotify-client-v1',PLAYLIST='viva-spotify-playlist-v1',TOKENS='viva-spotify-session-v1',PKCE='viva-spotify-pkce-v1';
 // Spotify Client ID is public; no Client Secret or access tokens are included in the bundle.
 const DEFAULT_CLIENT_ID='c4e9fe8799bc44cb944b26cb54557e3d';
+const OFFICIAL_ID='5YemM9AtFz0kVteTl0x4ZH',OFFICIAL_URL='https://open.spotify.com/playlist/'+OFFICIAL_ID;
 const REDIRECT=new URL('.', location.href).href, SCOPES='streaming user-read-playback-state user-modify-playback-state playlist-read-private playlist-read-collaborative';
-let dock=null,player=null,device='',playlists=[],song='',artist='',cover='',trackUri='',album='',playlistName='',playlistArt='',playing=false,expanded=false,embedOpen=false,sdkLoading=null,notice='',refreshFlight=null,lastStarted='',renderedPanel='',refreshTimer=null,visibilityBound=false,sdkStateRevision=0;
+let dock=null,player=null,device='',playlists=[],song='',artist='',cover='',trackUri='',album='',playlistName='',playlistArt='',playing=false,expanded=false,embedOpen=false,embedMode='',embedId='',sdkLoading=null,notice='',refreshFlight=null,lastStarted='',renderedPanel='',refreshTimer=null,visibilityBound=false,sdkStateRevision=0;
 const saved=(k,v)=>{try{if(v===undefined)return localStorage.getItem(k)||'';v?localStorage.setItem(k,v):localStorage.removeItem(k)}catch{return ''}};
 const temp=(k,v)=>{try{if(v===undefined)return sessionStorage.getItem(k)||'';v?sessionStorage.setItem(k,v):sessionStorage.removeItem(k)}catch{return ''}};
 const esc=s=>String(s==null?'':s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
@@ -92,9 +93,9 @@ function coverMarkup(url,small=false){
 }
 function button(action,label,disabled=false,variant=''){
  const aria={prev:'Faixa anterior',next:'Próxima faixa',play:playing?'Pausar música':'Reproduzir música',
-  toggle:expanded?'Fechar player Spotify':'Abrir player Spotify',list:'Atualizar playlists',activate:'Ativar reprodução do Spotify'};
+  toggle:expanded?'Fechar player Spotify':'Abrir player Spotify',list:'Atualizar playlists',activate:'Ativar reprodução do Spotify',official:'Abrir ou fechar playlist oficial'};
  return '<button type="button" class="viva-spot-button '+esc(variant)+'" data-spot="'+esc(action)+'"'
-  +(aria[action]?' aria-label="'+aria[action]+'"':'')+(disabled?' disabled':'')+'>'+label+'</button>';
+  +(aria[action]?' aria-label="'+aria[action]+'"':'')+(action==='official'?' aria-controls="treine-spotify-public-frame" aria-expanded="'+(embedOpen&&embedMode==='official')+'"':'')+(disabled?' disabled':'')+'>'+label+'</button>';
 }
 function playlistCards(){
  if(!playlists.length)return '<p class="mv3-empty">Nenhuma playlist carregada. Toque em Atualizar para buscar sua biblioteca.</p>';
@@ -108,10 +109,18 @@ function playlistCards(){
 }
 function panel(){
  const id=selected(),authorized=!!auth(),details=selectedDetails(),hasTrack=!!song;
- const state=playing?'REPRODUZINDO':hasTrack?'PAUSADO':device?'PLAYER ATIVO':'AGUARDANDO PLAYER';
+ const state=embedOpen&&embedMode==='official'?'PLAYLIST OFICIAL':playing?'REPRODUZINDO':hasTrack?'PAUSADO':device?'PLAYER ATIVO':'AGUARDANDO PLAYER';
+ const officialOpen=embedOpen&&embedMode==='official';
+ const officialCard='<section class="mv3-official" aria-label="Playlist oficial Treine no Lar">'
+ +'<small class="mv3-official-eyebrow">PLAYLIST OFICIAL · PARA TODOS</small><h3>Música para treinar</h3>'
+ +'<p>Ouça nossa seleção pelo Spotify. Não exige cadastro na lista de usuários do aplicativo.</p>'
+ +'<div class="mv3-official-actions">'+button('official',officialOpen?'Fechar player':'Ouvir playlist',false,'mv3-official-play')
+ +'<a href="'+OFFICIAL_URL+'" target="_blank" rel="noopener noreferrer">Abrir no Spotify ↗</a></div>'
+ +'<small class="mv3-official-note">A reprodução depende da conta, plano e navegador; sem login podem ser oferecidas apenas prévias.</small>'
+ +'</section>';
  return '<div class="mv3">'
   +'<div class="mv3-heading"><span><b>Spotify</b><small>MÚSICA DO TREINO</small></span><span class="mv3-status'+(playing?' is-live':'')+'"><i></i>'+state+'</span></div>'
-  +'<section class="mv3-player" aria-label="Reprodutor Spotify">'
+  +officialCard+'<section class="mv3-player" aria-label="Reprodutor Spotify pessoal">'
   +'<div class="mv3-now">'+coverMarkup(hasTrack?cover:'')
   +'<div class="mv3-now-text"><small>'+(playing?'TOCANDO AGORA':hasTrack?'ÚLTIMA FAIXA':'ESCOLHA SUA MÚSICA')+'</small>'
   +'<b>'+esc(song||'Nenhuma faixa tocando')+'</b><span>'+esc(artist||'Selecione uma playlist abaixo')+'</span></div></div>'
@@ -141,8 +150,9 @@ function panel(){
 function draw(){
  if(!dock)return;
  const bar=dock.querySelector('[data-spot-bar]'),body=dock.querySelector('[data-spot-body]'),frame=dock.querySelector('[data-spot-frame]');
+ const officialMini=embedOpen&&embedMode==='official';
  const mini='<div class="viva-spot-mini">'+coverMarkup(cover||selectedDetails().image,true)
-  +'<span class="viva-spot-mini-text"><b>'+esc(song||'Spotify · Música do treino')+'</b><small>'+esc(artist||selectedDetails().name)+'</small></span>'
+  +'<span class="viva-spot-mini-text"><b>'+esc(song||(officialMini?'Playlist oficial · Treine no Lar':'Spotify · Música do treino'))+'</b><small>'+esc(artist||(officialMini?'Player oficial do Spotify':selectedDetails().name))+'</small></span>'
   +'<span class="viva-spot-mini-signal">'+signal()+'</span></div>'
   +button('toggle',expanded?spotIcon('close'):spotIcon('chevron'),false,'is-minimize');
  if(bar&&bar.innerHTML!==mini)bar.innerHTML=mini;
@@ -156,15 +166,35 @@ function draw(){
  if(body)body.hidden=!expanded;
  if(frame)frame.hidden=!expanded||!embedOpen;
  dock.classList.toggle('is-open',expanded);
- dock.classList.toggle('is-used',!!selected()||!!auth());
+ dock.classList.toggle('is-used',!!selected()||!!auth()||embedOpen);
+ dock.classList.toggle('is-embed-open',embedOpen);
  dock.classList.toggle('is-playing',playing);
 }
 
 function message(x){notice=String(x||'');draw()}
-function embed(){const id=selected();if(!id){message('Escolha uma playlist.');return}const frame=dock.querySelector('[data-spot-frame]');embedOpen=!embedOpen;
- if(embedOpen&&frame&&!frame.querySelector('iframe')){const el=document.createElement('iframe');el.src='https://open.spotify.com/embed/playlist/'+id;el.title='Spotify — playlist do treino';el.setAttribute('allow','autoplay; encrypted-media; fullscreen; picture-in-picture');el.style.cssText='width:100%;height:152px;border:0;border-radius:12px';frame.appendChild(el)}
- expanded=true;message(embedOpen?'Use Play no player oficial. No iPhone, pode abrir o app Spotify.':'')}
-function savePlaylist(raw){const id=playlistId(raw);if(!id){message('Cole um link de playlist Spotify, não de álbum ou música.');return false}const previous=selected();saved(PLAYLIST,id);if(previous!==id)lastStarted='';const chosen=playlists.find(p=>p.id===id);playlistName=chosen?.name||'Playlist escolhida';playlistArt=chosen?.image||'';embedOpen=false;const frame=dock?.querySelector('[data-spot-frame]');if(frame)frame.innerHTML='';message('Playlist salva.');return true}
+function embed(mode='personal'){
+ const official=mode==='official',id=official?OFFICIAL_ID:selected();
+ if(!id){message('Escolha uma playlist.');return}
+ const frame=dock?.querySelector('[data-spot-frame]');
+ const same=embedOpen&&embedMode===mode&&embedId===id;
+ if(same){embedOpen=false;embedMode='';embedId='';if(frame)frame.replaceChildren();message('Player oficial fechado.');return}
+ // Iframe público separado do Web Playback SDK: nenhum token OAuth é compartilhado.
+ embedOpen=true;embedMode=mode;embedId=id;
+ if(frame){
+  frame.replaceChildren();
+  const iframe=document.createElement('iframe');
+  iframe.src='https://open.spotify.com/embed/playlist/'+id;
+  iframe.title=official?'Spotify — playlist oficial Treine no Lar':'Spotify — playlist escolhida';
+  iframe.setAttribute('allow','autoplay; encrypted-media; fullscreen; picture-in-picture');
+  iframe.setAttribute('loading','lazy');
+  iframe.setAttribute('referrerpolicy','strict-origin-when-cross-origin');
+  iframe.style.cssText='width:100%;border:0;border-radius:12px';
+  frame.appendChild(iframe);
+ }
+ expanded=true;
+ message(official?'Playlist oficial aberta. Use Play no Spotify para ouvir.':'Player oficial aberto. Use Play no Spotify.');
+}
+function savePlaylist(raw){const id=playlistId(raw);if(!id){message('Cole um link de playlist Spotify, não de álbum ou música.');return false}const previous=selected();saved(PLAYLIST,id);if(previous!==id)lastStarted='';const chosen=playlists.find(p=>p.id===id);playlistName=chosen?.name||'Playlist escolhida';playlistArt=chosen?.image||'';if(embedMode==='personal'){embedOpen=false;embedMode='';embedId='';const frame=dock?.querySelector('[data-spot-frame]');if(frame)frame.replaceChildren()}message('Playlist salva.');return true}
 function loadSDK(){if(g.Spotify?.Player)return Promise.resolve();if(sdkLoading)return sdkLoading;sdkLoading=new Promise((resolve,reject)=>{const timeout=setTimeout(()=>reject(Error('Tempo esgotado ao carregar o Spotify.')),14000);g.onSpotifyWebPlaybackSDKReady=()=>{clearTimeout(timeout);resolve()};const tag=document.createElement('script');tag.src='https://sdk.scdn.co/spotify-player.js';tag.async=true;tag.onerror=()=>{clearTimeout(timeout);reject(Error('SDK do Spotify indisponível.'))};document.head.appendChild(tag)}).catch(e=>{sdkLoading=null;throw e});return sdkLoading}
 async function activate(){if(!auth()){message('Conecte sua conta Premium primeiro.');return}if(!g.Spotify?.Player){message('Carregando SDK. Depois toque novamente em Ativar player.');await loadSDK().catch(e=>message(e.message));return}
  if(!player){player=new g.Spotify.Player({name:'Treine no Lar - Música do treino',getOAuthToken:cb=>token().then(t=>cb(t||'')).catch(()=>cb('')),volume:.4});
@@ -226,10 +256,10 @@ async function onClick(e){const b=e.target.closest('[data-spot],[data-spot-id]')
  case 'toggle':toggle();break;case 'login':await login();break;case 'activate':await activate();break;case 'list':await myPlaylists();break;case 'play':await play();break;case 'logout':logout();break;
  case 'prev':try{await player?.previousTrack()}catch{message('Não foi possível voltar.')}break;
  case 'next':try{await player?.nextTrack()}catch{message('Não foi possível avançar.')}break;
- case 'embed':embed();break;}}
+ case 'embed':embed('personal');break;case 'official':embed('official');break;}}
 function onSubmit(e){if(e.target.id==='spotify-playlist-form'){e.preventDefault();savePlaylist(dock.querySelector('#spotify-playlist-url')?.value);return}
  if(e.target.id==='spotify-client-form'){e.preventDefault();const id=(dock.querySelector('#spotify-client-input')?.value||'').trim();if(!validId(id)){message('Client ID inválido. Use 32 caracteres hexadecimais.');return}if(id!==clientId()){logout();saved(CLIENT,id)}message('Client ID salvo. Conecte sua conta Premium.')}}
 function toggle(value){expanded=typeof value==='boolean'?value:!expanded;draw()}
-function mount(el){if(!el)return;dock=el;dock.innerHTML='<div class="viva-spot-bar" data-spot-bar></div><div data-spot-body></div><div class="viva-spot-frame" data-spot-frame hidden></div>';dock.addEventListener('click',onClick);dock.addEventListener('submit',onSubmit);draw();callback().catch(e=>message(e.message));if(auth()){loadSDK().catch(()=>{});myPlaylists();syncPlayback();beginSync()}}
-g.VivaSpotify=Object.freeze({mount,toggle,playlistId,validId,savePlaylist,safeImage,clientId,selected,get connected(){return !!device},get nowPlaying(){return {song,artist,cover,album,playing,playlist:selected()}},get status(){return notice}});
+function mount(el){if(!el)return;dock=el;dock.innerHTML='<div class="viva-spot-bar" data-spot-bar></div><div data-spot-body></div><div class="viva-spot-frame" data-spot-frame id="treine-spotify-public-frame" hidden></div>';dock.addEventListener('click',onClick);dock.addEventListener('submit',onSubmit);draw();callback().catch(e=>message(e.message));if(auth()){loadSDK().catch(()=>{});myPlaylists();syncPlayback();beginSync()}}
+g.VivaSpotify=Object.freeze({mount,toggle,playlistId,validId,savePlaylist,safeImage,clientId,selected,officialPlaylist:Object.freeze({id:OFFICIAL_ID,url:OFFICIAL_URL}),get connected(){return !!device},get nowPlaying(){return {song,artist,cover,album,playing,playlist:selected()}},get status(){return notice}});
 })(window);

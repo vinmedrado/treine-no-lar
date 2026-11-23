@@ -77,6 +77,9 @@ Aplicativo estático, sem dependências de build. Os arquivos desta pasta são p
 
 ## Música durante o treino — Spotify Premium
 
+### Playlist oficial pública
+Acesse **Música → Ouvir playlist** para abrir o player oficial da playlist do Treine no Lar, mesmo sem estar autorizado no app Spotify em Development Mode. Também é possível abrir no Spotify: https://open.spotify.com/playlist/5YemM9AtFz0kVteTl0x4ZH. A reprodução completa depende das condições do Spotify e da conta do visitante; sem login pode haver apenas prévias. O player oficial não recebe tokens OAuth do painel de conexão pessoal.
+
 O Treine no Lar oferece um painel de música que permanece montado enquanto o cronômetro muda de exercício. Há duas modalidades:
 
 - **Player oficial**: em Início, toque em **Música**, cole um endereço `https://open.spotify.com/playlist/...`, salve e abra o player oficial. Não exige Client ID. O comportamento de reprodução completa é determinado pelo Spotify e pelo Safari.
