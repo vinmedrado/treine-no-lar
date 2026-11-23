@@ -157,3 +157,7 @@ A home V5, o Téo Smart Walk, a integração Spotify e o cronômetro foram prese
 ## Motion Pages V2 — remocao de animacoes com aparencia de template IA
 
 Abas internas agora usam apenas elementos de movimento associados a tarefas: régua de entrada no cabeçalho, marcador do dia no Plano, linha de etapas no Avulso, seleção de filtros nos Exercícios, revelação dos dados de gráficos no Progresso e indicação de foco nos Ajustes. Os cartões e textos não usam mais blur, zoom, fade em cascata ou saltos. A home, o mascote Téo, Spotify e o cronômetro não foram alterados.
+
+## Motion Pages V3 — movimento cinético nas abas, sem linhas azuis
+
+As faixas, réguas e pseudo-elementos de linhas decorativas da versão anterior foram completamente removidos. Plano ganha fichas de dias com giro no eixo e conteúdo que se desdobra; Avulso mostra fases em sequência com movimento próprio; Exercícios anima filtros e fichas; Progresso e Peso animam somente métricas e gráficos verdadeiros; Ajustes usa transição mecânica dos painéis com resposta nas alterações; Biblioteca anima fichas como catálogo. As cenas são ativadas quando entram no visor e atualizadas quando o usuário troca o conteúdo, sem esconder texto, sem efeitos de blur/glow, sem interferir com o cronômetro, a home, o Spotify ou o Téo.

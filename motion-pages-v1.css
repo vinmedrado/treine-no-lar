@@ -1,93 +1,196 @@
-/* Motion Pages V2: marca esportiva, não transições de template IA.
-   Sem blur, glow, fade em cascata, zoom ou cartões que flutuam.
-   Home, Téo, Spotify e cronômetro não são alterados. */
-:root{--tln-track:#3173df;--tln-ease:cubic-bezier(.21,.88,.29,1)}
-/* Entrada editorial curta: régua de pista, nunca esconde texto. */
-#app.tln-motion-engaged .plainhead{position:relative;padding-bottom:16px}
-#app.tln-motion-engaged .plainhead:after{
- content:"";position:absolute;bottom:0;left:0;width:100%;height:3px;
- background:linear-gradient(90deg,#2765d5 0 24%,#a2cdfc 24% 27%,#e3eefa 27% 100%);
- transform-origin:left;animation:tlnTrack .62s cubic-bezier(.6,0,.2,1) both;pointer-events:none
+/* Treine no Lar · Motion Pages V3
+   Animações esportivas CINÉTICAS e localizadas — sem linhas decorativas,
+   sem gradientes de brilho/blur e sem cartões genéricos flutuando.
+   A informação permanece visível mesmo se o JavaScript não executar.
+   Não altera a home, o Téo, o Spotify nem o cronômetro.
+ */
+:root{--tln-motion-spring:cubic-bezier(.2,.9,.2,1);--tln-motion-snap:cubic-bezier(.58,0,.2,1)}
+/* Identidade de mudança de aba: título entra como corte editorial, não uma régua. */
+#app .tln-motion-title.tln-motion-play>div,
+#app .tln-motion-title.tln-motion-play>h1{
+ animation:tlnHeadlineCut .68s var(--tln-motion-spring) both;
 }
-#app.tln-motion-engaged .plainhead:before{
- content:"";position:absolute;bottom:-3px;left:0;width:18px;height:9px;
- border-radius:2px;background:#2f71de;animation:tlnMarker .62s cubic-bezier(.6,0,.2,1) both;pointer-events:none
+#app .tln-motion-title.tln-motion-play h1{
+ animation:tlnHeadlineCut .7s var(--tln-motion-spring) both;
 }
-@keyframes tlnTrack{from{transform:scaleX(0)}to{transform:scaleX(1)}}
-@keyframes tlnMarker{from{left:0}to{left:calc(100% - 18px)}}
-/* Plano: seleção do dia e três fases de treino. */
-#app[data-motion-screen="professor"] .coach-day,
-#app[data-motion-screen="treinos"] .duration-small button,
-#app[data-motion-screen="exercicios"] .viva-filter-row button{position:relative;overflow:hidden}
-#app[data-motion-screen="professor"] .coach-day.active:after,
-#app[data-motion-screen="treinos"] .duration-small button.active:after{
- content:"";position:absolute;bottom:0;left:0;right:0;height:4px;
- background:#3271dc;transform-origin:left;animation:tlnTrack .47s var(--tln-ease) both
+#app .tln-motion-title.tln-motion-play small{
+ animation:tlnSubtitleSnap .6s var(--tln-motion-spring) .12s both;
 }
-#app[data-motion-screen="professor"] .viva-protocol-phases{position:relative}
-#app[data-motion-screen="professor"] .viva-protocol-phases:before{
- content:"";position:absolute;left:9%;right:9%;top:-7px;height:3px;
- background:linear-gradient(90deg,#1e62d5,#70adef,#9bcbfd);
- transform-origin:left;animation:tlnTrack .85s var(--tln-ease) both
+@keyframes tlnHeadlineCut{
+ 0%{transform:translate3d(-43px,0,0) skewX(-7deg)}
+ 66%{transform:translate3d(5px,0,0) skewX(1deg)}
+ 100%{transform:translate3d(0,0,0) skewX(0)}
 }
-/* Avulso: a faixa desenha a ordem do circuito, sem deslocar cards. */
-#app[data-motion-screen="treinos"] .phasegrid{position:relative}
-#app[data-motion-screen="treinos"] .phasegrid:before{
- content:"";position:absolute;z-index:1;top:0;left:0;right:0;height:3px;pointer-events:none;
- background:linear-gradient(90deg,#235ad2,#4795ed,#9acffc);
- transform-origin:left;animation:tlnTrack .9s var(--tln-ease) both
+@keyframes tlnSubtitleSnap{
+ 0%{transform:translateX(23px);opacity:.35}
+ 100%{transform:translateX(0);opacity:1}
 }
-/* Exercícios: o filtro muda de estado com uma marca deslizante. */
-#app[data-motion-screen="exercicios"] .viva-filter-row button.selected:after{
- content:"";position:absolute;left:0;right:0;bottom:0;height:3px;background:#286bd9;
- animation:tlnFilter .35s ease-out both
+/* PLANO — cards surgem como fichas de treino físicas, com eixo e recuperação. */
+#app[data-motion-screen="professor"] .tln-motion-hero.tln-motion-play{
+ animation:tlnCoachEntrance .72s var(--tln-motion-spring) both;
+ transform-origin:left center
 }
-@keyframes tlnFilter{from{transform:translateX(-100%)}to{transform:translateX(0)}}
-#app[data-motion-screen="exercicios"] .viva-ex-directory-card{
- border-left:3px solid #dce8fa;transition:border-color .24s,background-color .24s
+@keyframes tlnCoachEntrance{
+ 0%{transform:perspective(1000px) rotateY(-14deg) translateX(-26px)}
+ 72%{transform:perspective(1000px) rotateY(2deg) translateX(3px)}
+ 100%{transform:none}
 }
-#app[data-motion-screen="exercicios"] .viva-ex-directory-card:focus-within{
- border-left-color:#316dd8;background:#f7fbff
+#app[data-motion-screen="professor"] .coach-days .coach-day.tln-motion-play{
+ animation:tlnDayFlip .65s var(--tln-motion-spring) var(--tln-delay,0ms) both;
+ transform-origin:50% 100%
 }
-/* Progresso: somente os dados de verdade animam. */
+@keyframes tlnDayFlip{
+ 0%{transform:perspective(480px) rotateX(-65deg) translateY(-9px)}
+ 73%{transform:perspective(480px) rotateX(8deg)}
+ 100%{transform:none}
+}
+#app[data-motion-screen="professor"] .coach-daycard.tln-motion-play{
+ animation:tlnDetailUnfold .75s var(--tln-motion-spring) both;
+ transform-origin:top left
+}
+@keyframes tlnDetailUnfold{
+ 0%{clip-path:inset(0 0 80% 0);transform:translateY(-12px)}
+ 100%{clip-path:inset(0);transform:none}
+}
+/* AVULSO — os três blocos entram como uma sequência cronometrada. */
+#app[data-motion-screen="treinos"] .phasebox.tln-motion-play{
+ animation:tlnPhaseDeal .66s var(--tln-motion-spring) var(--tln-delay,0ms) both;
+ transform-origin:20% 100%
+}
+@keyframes tlnPhaseDeal{
+ 0%{transform:translateX(-37px) rotate(-7deg) scale(.91)}
+ 68%{transform:translateX(5px) rotate(1.5deg) scale(1.015)}
+ 100%{transform:none}
+}
+#app[data-motion-screen="treinos"] .banner.tln-motion-play{
+ animation:tlnTimerDrop .7s var(--tln-motion-spring) both
+}
+#app[data-motion-screen="treinos"] .banner.tln-motion-play .number{
+ animation:tlnDigitalSet .82s var(--tln-motion-spring) .12s both
+}
+@keyframes tlnTimerDrop{
+ 0%{transform:translateY(-31px)}
+ 68%{transform:translateY(5px)}
+ 100%{transform:none}
+}
+@keyframes tlnDigitalSet{
+ 0%{transform:perspective(350px) rotateX(-75deg)}
+ 72%{transform:perspective(350px) rotateX(8deg)}
+ 100%{transform:none}
+}
+#app[data-motion-screen="treinos"] .stage-block.tln-motion-play{
+ animation:tlnDetailUnfold .65s var(--tln-motion-spring) both
+}
+/* EXERCÍCIOS — opções acessíveis deslizam curtas; fichas entram como gavetas. */
+#app[data-motion-screen="exercicios"] .viva-filter-row button.tln-motion-play{
+ animation:tlnFilterSet .55s var(--tln-motion-spring) var(--tln-delay,0ms) both
+}
+@keyframes tlnFilterSet{
+ 0%{transform:translateX(30px) rotate(6deg)}
+ 65%{transform:translateX(-3px) rotate(-1deg)}
+ 100%{transform:none}
+}
+#app[data-motion-screen="exercicios"] .viva-ex-directory-card.tln-motion-play{
+ animation:tlnDirectorySlide .57s var(--tln-motion-spring) var(--tln-delay,0ms) both;
+}
+@keyframes tlnDirectorySlide{
+ 0%{transform:translate3d(43px,0,0);clip-path:inset(0 0 0 60%)}
+ 100%{transform:none;clip-path:inset(0)}
+}
+#app[data-motion-screen="exercicios"] .viva-filter-row button.selected{
+ transition:background-color .23s,border-color .23s,color .23s;
+}
+/* PROGRESSO — métricas têm flip de mostrador; gráficos crescem com dados reais. */
+#app[data-motion-screen="progresso"] .metric.tln-motion-play strong{
+ display:inline-block;transform-origin:center bottom;
+ animation:tlnScoreboard .76s var(--tln-motion-spring) var(--tln-delay,0ms) both
+}
+@keyframes tlnScoreboard{
+ 0%{transform:perspective(420px) rotateX(-90deg) translateY(-10px)}
+ 74%{transform:perspective(420px) rotateX(12deg)}
+ 100%{transform:none}
+}
 #app[data-motion-screen="progresso"] .progress-bars.tln-data-live .progress-bar-fill{
- transform-origin:bottom;animation:tlnDataRise 1.13s cubic-bezier(.24,.8,.22,1) both
+ transform-origin:center bottom;
+ animation:tlnDataBuild 1.2s cubic-bezier(.14,.75,.28,1) var(--tln-delay,0ms) both
 }
-#app[data-motion-screen="progresso"] .progress-week:nth-child(2) .progress-bar-fill{animation-delay:.07s}
-#app[data-motion-screen="progresso"] .progress-week:nth-child(3) .progress-bar-fill{animation-delay:.14s}
-#app[data-motion-screen="progresso"] .progress-week:nth-child(4) .progress-bar-fill{animation-delay:.21s}
-#app[data-motion-screen="progresso"] .progress-week:nth-child(5) .progress-bar-fill{animation-delay:.28s}
-#app[data-motion-screen="progresso"] .progress-week:nth-child(6) .progress-bar-fill{animation-delay:.35s}
-#app[data-motion-screen="progresso"] .progress-week:nth-child(7) .progress-bar-fill{animation-delay:.42s}
-#app[data-motion-screen="progresso"] .progress-week:nth-child(8) .progress-bar-fill{animation-delay:.49s}
-@keyframes tlnDataRise{from{transform:scaleY(.02)}to{transform:scaleY(1)}}
+#app[data-motion-screen="progresso"] .progress-week:nth-child(2) .progress-bar-fill{animation-delay:.08s}
+#app[data-motion-screen="progresso"] .progress-week:nth-child(3) .progress-bar-fill{animation-delay:.16s}
+#app[data-motion-screen="progresso"] .progress-week:nth-child(4) .progress-bar-fill{animation-delay:.24s}
+#app[data-motion-screen="progresso"] .progress-week:nth-child(5) .progress-bar-fill{animation-delay:.32s}
+#app[data-motion-screen="progresso"] .progress-week:nth-child(6) .progress-bar-fill{animation-delay:.40s}
+#app[data-motion-screen="progresso"] .progress-week:nth-child(7) .progress-bar-fill{animation-delay:.48s}
+#app[data-motion-screen="progresso"] .progress-week:nth-child(8) .progress-bar-fill{animation-delay:.56s}
+@keyframes tlnDataBuild{from{transform:scaleY(.025)}to{transform:scaleY(1)}}
 #app .tln-chart-draw .chartline{
- stroke-dasharray:var(--tln-path,800);
- stroke-dashoffset:var(--tln-path,800);
- animation:tlnChartDraw 1.25s ease-out both
+ stroke-dasharray:var(--tln-path,800);stroke-dashoffset:var(--tln-path,800);
+ animation:tlnChartInk 1.35s ease-out both;
 }
-@keyframes tlnChartDraw{to{stroke-dashoffset:0}}
-/* Ajustes: feedback só onde existe seleção ou foco. */
-#app[data-motion-screen="ajustes"] .coach-gear{border-left:3px solid #dce8fa;transition:border-left-color .2s ease}
-#app[data-motion-screen="ajustes"] .coach-gear:focus-within{border-left-color:#276bda}
-#app[data-motion-screen="ajustes"] .toggler:has(input:checked){
- border-color:#9fbfec;background:#f5f9ff;transition:background .2s,border-color .2s
+@keyframes tlnChartInk{to{stroke-dashoffset:0}}
+/* AJUSTES — feedback mecânico, parecido com chaves físicas. */
+#app[data-motion-screen="ajustes"] .coach-gear.tln-motion-play{
+ animation:tlnGearHinge .72s var(--tln-motion-spring) var(--tln-delay,0ms) both;
+ transform-origin:top left
 }
-/* Biblioteca e peso: régua editorial, sem animação do conteúdo. */
-#app[data-motion-screen="biblioteca"] .library-intro,
-#app[data-motion-screen="peso"] .soft-card{position:relative}
-#app[data-motion-screen="biblioteca"] .library-intro:after,
-#app[data-motion-screen="peso"] .soft-card:after{
- content:"";position:absolute;bottom:0;left:0;right:0;height:3px;
- background:#3a7bdf;transform-origin:left;animation:tlnTrack .72s ease-out both;pointer-events:none
+@keyframes tlnGearHinge{
+ 0%{transform:perspective(600px) rotateY(-19deg) translateX(-18px)}
+ 77%{transform:perspective(600px) rotateY(3deg)}
+ 100%{transform:none}
 }
-@media(max-width:650px){#app.tln-motion-engaged .plainhead{padding-bottom:13px}}
+#app[data-motion-screen="ajustes"] .toggler.tln-motion-play{
+ animation:tlnToggleDock .6s var(--tln-motion-spring) both
+}
+@keyframes tlnToggleDock{
+ 0%{transform:translateX(26px)}
+ 72%{transform:translateX(-3px)}
+ 100%{transform:none}
+}
+#app[data-motion-screen="ajustes"] .tln-input-feedback{
+ animation:tlnSettingConfirm .43s ease-out both
+}
+@keyframes tlnSettingConfirm{
+ 0%,100%{outline:0 solid transparent}
+ 40%{outline:4px solid #83b4ef77;outline-offset:1px}
+}
+/* BIBLIOTECA — fichas se desdobram; paginação fica estável. */
+#app[data-motion-screen="biblioteca"] .library-intro.tln-motion-play{
+ animation:tlnCoachEntrance .7s var(--tln-motion-spring) both
+}
+#app[data-motion-screen="biblioteca"] .library-preview.tln-motion-play{
+ animation:tlnDetailUnfold .8s var(--tln-motion-spring) both
+}
+#app[data-motion-screen="biblioteca"] .library-move.tln-motion-play{
+ animation:tlnBookIndex .55s var(--tln-motion-spring) var(--tln-delay,0ms) both
+}
+@keyframes tlnBookIndex{
+ 0%{transform:perspective(650px) rotateY(-28deg);transform-origin:left center}
+ 100%{transform:none}
+}
+/* PESO — mesma linguagem de mostrador e desenho de dados. */
+#app[data-motion-screen="peso"] .weight-focus.tln-motion-play{
+ animation:tlnScoreboard .76s var(--tln-motion-spring) both
+}
+#app[data-motion-screen="peso"] .soft-card.tln-motion-play{
+ animation:tlnTimerDrop .65s var(--tln-motion-spring) both
+}
+/* FINALIZAÇÃO — enfatiza a realização real, sem confete aleatório. */
+#app[data-motion-screen="concluido"] .metrics .metric.tln-motion-play{
+ animation:tlnDayFlip .64s var(--tln-motion-spring) var(--tln-delay,0ms) both
+}
+/* No iPhone, movimentos mais diretos e sem transformações 3D grandes. */
+@media(max-width:650px){
+ #app .tln-motion-title.tln-motion-play h1{animation-duration:.56s}
+ #app[data-motion-screen="professor"] .coach-days .coach-day.tln-motion-play,
+ #app[data-motion-screen="treinos"] .phasebox.tln-motion-play{
+  animation-duration:.53s
+ }
+ #app[data-motion-screen="exercicios"] .viva-ex-directory-card.tln-motion-play{animation-duration:.48s}
+}
+/* Todos os blocos são visíveis na ausência de JS, IntersectionObserver ou animação. */
 @media(prefers-reduced-motion:reduce){
- #app.tln-motion-engaged .plainhead:after,#app.tln-motion-engaged .plainhead:before,
- #app .coach-day.active:after,#app .duration-small button.active:after,
- #app .viva-protocol-phases:before,#app .phasegrid:before,
- #app .viva-filter-row button.selected:after,#app .progress-bar-fill,
- #app .tln-chart-draw .chartline,#app .library-intro:after,#app .soft-card:after{
- animation:none!important;transform:none!important;stroke-dashoffset:0!important
+ #app .tln-motion-play,#app .tln-motion-play *,
+ #app .tln-data-live .progress-bar-fill,#app .tln-chart-draw .chartline{
+  animation:none!important;transition:none!important;transform:none!important;
+  opacity:1!important;clip-path:none!important;stroke-dashoffset:0!important
  }
 }
