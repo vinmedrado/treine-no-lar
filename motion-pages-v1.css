@@ -1,158 +1,93 @@
-/* TREINE NO LAR — Motion Across Pages V1
-   All navigation pages receive editorial entrances and controlled interaction.
-   HOME V5 and Téo Smart Walk are intentionally unchanged.
-   Content stays visible before/without JavaScript; no invisible-by-default sections.
-*/
-:root{--tlnp-ease:cubic-bezier(.18,.9,.22,1);--tlnp-blue:#3c84f7;}
-#app.tln-page-motion{min-width:0}
-#app .tln-motion-item{backface-visibility:hidden}
-#app .tln-motion-item.tln-motion-visible.tln-motion-heading{
- animation:tlnPageHeading .72s var(--tlnp-ease) var(--tlnp-delay,0ms) both;
+/* Motion Pages V2: marca esportiva, não transições de template IA.
+   Sem blur, glow, fade em cascata, zoom ou cartões que flutuam.
+   Home, Téo, Spotify e cronômetro não são alterados. */
+:root{--tln-track:#3173df;--tln-ease:cubic-bezier(.21,.88,.29,1)}
+/* Entrada editorial curta: régua de pista, nunca esconde texto. */
+#app.tln-motion-engaged .plainhead{position:relative;padding-bottom:16px}
+#app.tln-motion-engaged .plainhead:after{
+ content:"";position:absolute;bottom:0;left:0;width:100%;height:3px;
+ background:linear-gradient(90deg,#2765d5 0 24%,#a2cdfc 24% 27%,#e3eefa 27% 100%);
+ transform-origin:left;animation:tlnTrack .62s cubic-bezier(.6,0,.2,1) both;pointer-events:none
 }
-#app .tln-motion-item.tln-motion-visible.tln-motion-sweep{
- animation:tlnPageSweep .9s var(--tlnp-ease) var(--tlnp-delay,0ms) both;
+#app.tln-motion-engaged .plainhead:before{
+ content:"";position:absolute;bottom:-3px;left:0;width:18px;height:9px;
+ border-radius:2px;background:#2f71de;animation:tlnMarker .62s cubic-bezier(.6,0,.2,1) both;pointer-events:none
 }
-#app .tln-motion-item.tln-motion-visible.tln-motion-card{
- animation:tlnPageCard .77s var(--tlnp-ease) var(--tlnp-delay,0ms) both;
+@keyframes tlnTrack{from{transform:scaleX(0)}to{transform:scaleX(1)}}
+@keyframes tlnMarker{from{left:0}to{left:calc(100% - 18px)}}
+/* Plano: seleção do dia e três fases de treino. */
+#app[data-motion-screen="professor"] .coach-day,
+#app[data-motion-screen="treinos"] .duration-small button,
+#app[data-motion-screen="exercicios"] .viva-filter-row button{position:relative;overflow:hidden}
+#app[data-motion-screen="professor"] .coach-day.active:after,
+#app[data-motion-screen="treinos"] .duration-small button.active:after{
+ content:"";position:absolute;bottom:0;left:0;right:0;height:4px;
+ background:#3271dc;transform-origin:left;animation:tlnTrack .47s var(--tln-ease) both
 }
-#app .tln-motion-item.tln-motion-visible.tln-motion-side{
- animation:tlnPageSide .82s var(--tlnp-ease) var(--tlnp-delay,0ms) both;
+#app[data-motion-screen="professor"] .viva-protocol-phases{position:relative}
+#app[data-motion-screen="professor"] .viva-protocol-phases:before{
+ content:"";position:absolute;left:9%;right:9%;top:-7px;height:3px;
+ background:linear-gradient(90deg,#1e62d5,#70adef,#9bcbfd);
+ transform-origin:left;animation:tlnTrack .85s var(--tln-ease) both
 }
-#app .tln-motion-item.tln-motion-visible.tln-motion-soft{
- animation:tlnPageSoft .64s var(--tlnp-ease) var(--tlnp-delay,0ms) both;
+/* Avulso: a faixa desenha a ordem do circuito, sem deslocar cards. */
+#app[data-motion-screen="treinos"] .phasegrid{position:relative}
+#app[data-motion-screen="treinos"] .phasegrid:before{
+ content:"";position:absolute;z-index:1;top:0;left:0;right:0;height:3px;pointer-events:none;
+ background:linear-gradient(90deg,#235ad2,#4795ed,#9acffc);
+ transform-origin:left;animation:tlnTrack .9s var(--tln-ease) both
 }
-@keyframes tlnPageHeading{
- 0%{opacity:.23;transform:translate3d(-26px,20px,0);filter:blur(7px)}
- 100%{opacity:1;transform:translate3d(0,0,0);filter:blur(0)}
+/* Exercícios: o filtro muda de estado com uma marca deslizante. */
+#app[data-motion-screen="exercicios"] .viva-filter-row button.selected:after{
+ content:"";position:absolute;left:0;right:0;bottom:0;height:3px;background:#286bd9;
+ animation:tlnFilter .35s ease-out both
 }
-@keyframes tlnPageSweep{
- 0%{opacity:.25;transform:translate3d(0,36px,0) scale(.965);clip-path:inset(0 0 24% 0)}
- 100%{opacity:1;transform:translate3d(0,0,0) scale(1);clip-path:inset(0 0 0 0)}
+@keyframes tlnFilter{from{transform:translateX(-100%)}to{transform:translateX(0)}}
+#app[data-motion-screen="exercicios"] .viva-ex-directory-card{
+ border-left:3px solid #dce8fa;transition:border-color .24s,background-color .24s
 }
-@keyframes tlnPageCard{
- 0%{opacity:.2;transform:translate3d(0,45px,0) scale(.955)}
- 75%{opacity:1}
- 100%{opacity:1;transform:translate3d(0,0,0) scale(1)}
+#app[data-motion-screen="exercicios"] .viva-ex-directory-card:focus-within{
+ border-left-color:#316dd8;background:#f7fbff
 }
-@keyframes tlnPageSide{
- 0%{opacity:.2;transform:translate3d(36px,12px,0)}
- 100%{opacity:1;transform:translate3d(0,0,0)}
+/* Progresso: somente os dados de verdade animam. */
+#app[data-motion-screen="progresso"] .progress-bars.tln-data-live .progress-bar-fill{
+ transform-origin:bottom;animation:tlnDataRise 1.13s cubic-bezier(.24,.8,.22,1) both
 }
-@keyframes tlnPageSoft{
- 0%{opacity:.55;transform:translate3d(0,18px,0)}
- 100%{opacity:1;transform:translate3d(0,0,0)}
+#app[data-motion-screen="progresso"] .progress-week:nth-child(2) .progress-bar-fill{animation-delay:.07s}
+#app[data-motion-screen="progresso"] .progress-week:nth-child(3) .progress-bar-fill{animation-delay:.14s}
+#app[data-motion-screen="progresso"] .progress-week:nth-child(4) .progress-bar-fill{animation-delay:.21s}
+#app[data-motion-screen="progresso"] .progress-week:nth-child(5) .progress-bar-fill{animation-delay:.28s}
+#app[data-motion-screen="progresso"] .progress-week:nth-child(6) .progress-bar-fill{animation-delay:.35s}
+#app[data-motion-screen="progresso"] .progress-week:nth-child(7) .progress-bar-fill{animation-delay:.42s}
+#app[data-motion-screen="progresso"] .progress-week:nth-child(8) .progress-bar-fill{animation-delay:.49s}
+@keyframes tlnDataRise{from{transform:scaleY(.02)}to{transform:scaleY(1)}}
+#app .tln-chart-draw .chartline{
+ stroke-dasharray:var(--tln-path,800);
+ stroke-dashoffset:var(--tln-path,800);
+ animation:tlnChartDraw 1.25s ease-out both
 }
-/* A clear sequence on each page, with meaningful focus instead of constant glows. */
-#app[data-motion-screen="professor"] .coach-hero,
-#app[data-motion-screen="treinos"] .banner,
+@keyframes tlnChartDraw{to{stroke-dashoffset:0}}
+/* Ajustes: feedback só onde existe seleção ou foco. */
+#app[data-motion-screen="ajustes"] .coach-gear{border-left:3px solid #dce8fa;transition:border-left-color .2s ease}
+#app[data-motion-screen="ajustes"] .coach-gear:focus-within{border-left-color:#276bda}
+#app[data-motion-screen="ajustes"] .toggler:has(input:checked){
+ border-color:#9fbfec;background:#f5f9ff;transition:background .2s,border-color .2s
+}
+/* Biblioteca e peso: régua editorial, sem animação do conteúdo. */
 #app[data-motion-screen="biblioteca"] .library-intro,
-#app[data-motion-screen="peso"] .soft-card{
- position:relative;isolation:isolate;overflow:hidden;
+#app[data-motion-screen="peso"] .soft-card{position:relative}
+#app[data-motion-screen="biblioteca"] .library-intro:after,
+#app[data-motion-screen="peso"] .soft-card:after{
+ content:"";position:absolute;bottom:0;left:0;right:0;height:3px;
+ background:#3a7bdf;transform-origin:left;animation:tlnTrack .72s ease-out both;pointer-events:none
 }
-#app[data-motion-screen="professor"] .coach-hero::after,
-#app[data-motion-screen="treinos"] .banner::after,
-#app[data-motion-screen="biblioteca"] .library-intro::after{
- content:"";position:absolute;pointer-events:none;z-index:0;
- bottom:0;left:0;height:3px;width:100%;
- background:linear-gradient(90deg,#245fd8,#81c5ff,#c4e0ff);
- transform:scaleX(0);transform-origin:left;
-}
-#app[data-motion-screen="professor"] .coach-hero.tln-motion-visible::after,
-#app[data-motion-screen="treinos"] .banner.tln-motion-visible::after,
-#app[data-motion-screen="biblioteca"] .library-intro.tln-motion-visible::after{
- animation:tlnPageRule .95s var(--tlnp-ease) .28s both;
-}
-@keyframes tlnPageRule{from{transform:scaleX(0)}to{transform:scaleX(1)}}
-#app[data-motion-screen="professor"] .coach-hero>*,
-#app[data-motion-screen="treinos"] .banner>*,
-#app[data-motion-screen="biblioteca"] .library-intro>*{position:relative;z-index:1}
-/* Progress: use real values already generated by the app. Never modify stored data. */
-#app[data-motion-screen="progresso"] .progress-bars.tln-chart-live .progress-bar-fill{
- animation:tlnPageBarRise 1.3s var(--tlnp-ease) both;
- transform-origin:bottom center;
-}
-#app[data-motion-screen="progresso"] .progress-week:nth-child(2) .progress-bar-fill{animation-delay:.08s}
-#app[data-motion-screen="progresso"] .progress-week:nth-child(3) .progress-bar-fill{animation-delay:.16s}
-#app[data-motion-screen="progresso"] .progress-week:nth-child(4) .progress-bar-fill{animation-delay:.24s}
-#app[data-motion-screen="progresso"] .progress-week:nth-child(5) .progress-bar-fill{animation-delay:.32s}
-#app[data-motion-screen="progresso"] .progress-week:nth-child(6) .progress-bar-fill{animation-delay:.40s}
-#app[data-motion-screen="progresso"] .progress-week:nth-child(7) .progress-bar-fill{animation-delay:.48s}
-#app[data-motion-screen="progresso"] .progress-week:nth-child(8) .progress-bar-fill{animation-delay:.56s}
-@keyframes tlnPageBarRise{
- from{transform:scaleY(.03);filter:saturate(.7)}
- to{transform:scaleY(1);filter:saturate(1)}
-}
-#app .tln-plot-reveal .chartline{
- stroke-dasharray:var(--tln-plot-length,1000);
- stroke-dashoffset:var(--tln-plot-length,1000);
- animation:tlnPageChartDraw 1.45s ease-out .1s both;
-}
-@keyframes tlnPageChartDraw{to{stroke-dashoffset:0}}
-/* Workout-adjacent page motions (not the active chronometer). */
-#app[data-motion-screen="professor"] .coach-days.tln-motion-visible .coach-day{
- animation:tlnPageDayEnter .54s var(--tlnp-ease) both;
-}
-#app[data-motion-screen="professor"] .coach-days .coach-day:nth-child(1){animation-delay:.08s}
-#app[data-motion-screen="professor"] .coach-days .coach-day:nth-child(2){animation-delay:.15s}
-#app[data-motion-screen="professor"] .coach-days .coach-day:nth-child(3){animation-delay:.22s}
-#app[data-motion-screen="professor"] .coach-days .coach-day:nth-child(4){animation-delay:.29s}
-#app[data-motion-screen="professor"] .coach-days .coach-day:nth-child(5){animation-delay:.36s}
-@keyframes tlnPageDayEnter{from{opacity:.3;transform:translateY(20px) scale(.91)}to{opacity:1;transform:translateY(0) scale(1)}}
-#app[data-motion-screen="treinos"] .phasegrid.tln-motion-visible .phasebox{
- animation:tlnPageCard .58s var(--tlnp-ease) both;
-}
-#app[data-motion-screen="treinos"] .phasegrid .phasebox:nth-child(1){animation-delay:.07s}
-#app[data-motion-screen="treinos"] .phasegrid .phasebox:nth-child(2){animation-delay:.18s}
-#app[data-motion-screen="treinos"] .phasegrid .phasebox:nth-child(3){animation-delay:.29s}
-#app[data-motion-screen="exercicios"] .viva-filter-row.tln-motion-visible button{
- animation:tlnPageSoft .45s var(--tlnp-ease) both;
-}
-#app[data-motion-screen="exercicios"] .viva-filter-row button:nth-child(2){animation-delay:.06s}
-#app[data-motion-screen="exercicios"] .viva-filter-row button:nth-child(3){animation-delay:.12s}
-#app[data-motion-screen="exercicios"] .viva-filter-row button:nth-child(4){animation-delay:.18s}
-/* Responsive, tactile states: only on real hover devices; no layout jumps on tap. */
-@media(hover:hover) and (pointer:fine){
- #app[data-motion-screen="professor"] .coach-day,
- #app[data-motion-screen="treinos"] .phasebox.tap,
- #app[data-motion-screen="exercicios"] .viva-ex-directory-card,
- #app[data-motion-screen="ajustes"] .coach-gear,
- #app[data-motion-screen="biblioteca"] .library-preview{
-  transition:transform .42s var(--tlnp-ease),box-shadow .42s ease,border-color .32s ease;
- }
- #app[data-motion-screen="professor"] .coach-day:hover,
- #app[data-motion-screen="treinos"] .phasebox.tap:hover{
-  transform:translateY(-5px);box-shadow:0 11px 23px #174da52b;
- }
- #app[data-motion-screen="exercicios"] .viva-ex-directory-card:hover,
- #app[data-motion-screen="ajustes"] .coach-gear:hover,
- #app[data-motion-screen="biblioteca"] .library-preview:hover{
-  transform:translateY(-3px);box-shadow:0 12px 28px #16478b1c;
- }
-}
-/* Active tab acknowledgment is brief; never loops or moves the navigation. */
-.nav button.active .viva-nav-icon{animation:tlnNavFocus .38s var(--tlnp-ease) both}
-@keyframes tlnNavFocus{0%{transform:scale(.8)}70%{transform:scale(1.14)}100%{transform:scale(1)}}
-@media(max-width:650px){
- #app .tln-motion-item.tln-motion-visible.tln-motion-heading{animation-duration:.56s}
- #app .tln-motion-item.tln-motion-visible.tln-motion-sweep,
- #app .tln-motion-item.tln-motion-visible.tln-motion-card,
- #app .tln-motion-item.tln-motion-visible.tln-motion-side{animation-duration:.63s}
- #app .tln-motion-item{filter:none}
-}
+@media(max-width:650px){#app.tln-motion-engaged .plainhead{padding-bottom:13px}}
 @media(prefers-reduced-motion:reduce){
- #app .tln-motion-item,#app .tln-motion-item.tln-motion-visible,
- #app .tln-motion-item.tln-motion-visible.tln-motion-heading,
- #app .tln-motion-item.tln-motion-visible.tln-motion-sweep,
- #app .tln-motion-item.tln-motion-visible.tln-motion-card,
- #app .tln-motion-item.tln-motion-visible.tln-motion-side,
- #app .tln-motion-item.tln-motion-visible.tln-motion-soft,
- #app .progress-bar-fill,#app .progress-week .progress-bar-fill,
- #app .tln-plot-reveal .chartline,.nav button.active .viva-nav-icon,
- #app .coach-days .coach-day,#app .phasegrid .phasebox{
-  animation:none!important;transform:none!important;opacity:1!important;
-  filter:none!important;clip-path:none!important;
+ #app.tln-motion-engaged .plainhead:after,#app.tln-motion-engaged .plainhead:before,
+ #app .coach-day.active:after,#app .duration-small button.active:after,
+ #app .viva-protocol-phases:before,#app .phasegrid:before,
+ #app .viva-filter-row button.selected:after,#app .progress-bar-fill,
+ #app .tln-chart-draw .chartline,#app .library-intro:after,#app .soft-card:after{
+ animation:none!important;transform:none!important;stroke-dashoffset:0!important
  }
- #app[data-motion-screen="professor"] .coach-hero::after,
- #app[data-motion-screen="treinos"] .banner::after,
- #app[data-motion-screen="biblioteca"] .library-intro::after{animation:none!important;transform:scaleX(1)}
 }

@@ -153,3 +153,7 @@ O mascote procura espaços vazios usando retângulos de texto por linha, limites
 ## Animações nas demais abas — Motion Pages V1
 
 A home V5, o Téo Smart Walk, a integração Spotify e o cronômetro foram preservados. As abas Plano, Avulso, Exercícios, Progresso e Ajustes agora possuem entradas visuais específicas; também Biblioteca e Peso e medidas. Cabeçalhos, banners, sequências de exercícios, métricas, filtros, dias do plano, históricos e áreas de configuração são animados conforme entram na janela visível, sem ficarem ocultos antes de o JavaScript atuar. As barras de evolução são reveladas mantendo os valores reais. A animação não reinicia em re-renderizações internas (filtros, ajustes e mudanças de dia), nem interfere na sessão de treino. Em movimento reduzido, os efeitos são desativados. Novos arquivos `motion-pages-v1.css` e `motion-pages-v1.js`.
+
+## Motion Pages V2 — remocao de animacoes com aparencia de template IA
+
+Abas internas agora usam apenas elementos de movimento associados a tarefas: régua de entrada no cabeçalho, marcador do dia no Plano, linha de etapas no Avulso, seleção de filtros nos Exercícios, revelação dos dados de gráficos no Progresso e indicação de foco nos Ajustes. Os cartões e textos não usam mais blur, zoom, fade em cascata ou saltos. A home, o mascote Téo, Spotify e o cronômetro não foram alterados.
